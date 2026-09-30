@@ -1,0 +1,17 @@
+# Environment & secrets
+.env
+*.env
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+
+# Runtime
+*.log
+tmp/

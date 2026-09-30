@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AgnoCommerce ID - Live AI Transaction Bot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root {
+      --rp-dark: #040e21;
+      --rp-card: #081836;
+      --rp-cyan: #00f2fe;
+      --rp-blue: #4facfe;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--rp-dark);
+      color: #e2e8f0;
+    }
+    .font-oxanium { font-family: 'Oxanium', sans-serif; }
+    .font-code { font-family: 'Fira Code', monospace; }
+    .glass-panel {
+      background: rgba(8, 24, 54, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 242, 254, 0.2);
+    }
+    .neon-border-pulse {
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+    }
+    .chat-bubble-bot {
+      background: rgba(14, 38, 77, 0.9);
+      border: 1px solid rgba(79, 172, 254, 0.25);
+    }
+    .chat-bubble-user {
+      background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+    }
+    /* Markdown Styles in Chat */
+    .prose-custom p { margin-bottom: 0.5rem; }
+    .prose-custom ul { list-style-type: disc; margin-left: 1.25rem; margin-bottom: 0.5rem; }
+    .prose-custom strong { color: #38bdf8; font-weight: 600; }
+    .prose-custom code { background: rgba(0,0,0,0.4); padding: 0.1rem 0.3rem; border-radius: 0.25rem; font-family: monospace; color: #a5f3fc; }
+    
+    /* Interactive Action Button Style */
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(59, 130, 246, 0.3) 100%);
+      border: 1px solid rgba(6, 182, 212, 0.5);
+      color: #67e8f9;
+      font-weight: 600;
+      font-size: 0.8125rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 0.75rem;
+      margin: 0.25rem 0.25rem 0.25rem 0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .action-btn:hover {
+      background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+      color: #040e21;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+    }
+    .action-btn:active {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#071a3d] via-[#040e21] to-black">
+
+  <!-- HEADER -->
+  <header class="w-full px-6 py-4 glass-panel border-b border-cyan-900/40 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center font-oxanium font-extrabold text-black text-xl shadow-lg shadow-cyan-500/20">
+        RP
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="font-oxanium text-lg font-bold text-white tracking-wide">AgnoCommerce ID</h1>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">AGENTIC AI</span>
+        </div>
+        <p class="text-xs text-slate-400">Toko Top Up &amp; Joki Mobile Legends Terpercaya Juragan</p>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-3">
+      <a href="/slides" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-950/70 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-500/40 text-xs font-semibold flex items-center gap-1.5 transition">
+        <span>📊 Slide Presentasi</span>
+      </a>
+      <a href="/docs" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-600 text-xs font-semibold flex items-center gap-1.5 transition">
+        <span>📖 Swagger API</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN CHAT CONTAINER -->
+  <main class="flex-1 max-w-4xl w-full mx-auto p-4 flex flex-col justify-between overflow-hidden">
+    
+    <!-- Top Game Quick Category Bar (Clickable Buttons) -->
+    <div class="flex items-center space-x-2 overflow-x-auto pb-2 mb-2">
+      <button onclick="sendQuickPrompt('Berapa harga diamond Mobile Legends hari ini?')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-xs font-semibold whitespace-nowrap transition">
+        <span>💎 Mobile Legends</span>
+      </button>
+      <button onclick="sendQuickPrompt('Berapa harga diamond Free Fire?')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-orange-950 text-orange-300 border border-orange-500/30 text-xs font-semibold whitespace-nowrap transition">
+        <span>🔥 Free Fire</span>
+      </button>
+      <button onclick="sendQuickPrompt('Berapa harga Robux Roblox?')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-red-950 text-red-300 border border-red-500/30 text-xs font-semibold whitespace-nowrap transition">
+        <span>🤖 Roblox Robux</span>
+      </button>
+      <button onclick="sendQuickPrompt('Berapa estimasi biaya joki dari Epic ke Mythic?')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-purple-950 text-purple-300 border border-purple-500/30 text-xs font-semibold whitespace-nowrap transition">
+        <span>🏆 Joki MLBB</span>
+      </button>
+      <button onclick="sendQuickPrompt('Carikan akun Mobile Legends sultan yang dijual')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-semibold whitespace-nowrap transition">
+        <span>🛡️ Jual Beli Akun</span>
+      </button>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="flex items-center justify-between px-4 py-2 rounded-xl bg-slate-900/60 border border-slate-800 mb-3 text-xs text-slate-400">
+      <div class="flex items-center space-x-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>RAPS-BOT Online (Gemini Key Pool) &bull; Latency: <strong class="text-cyan-300" id="latency-text">12ms</strong></span>
+      </div>
+      <div class="flex items-center space-x-2 font-code text-[11px]">
+        <span>Session:</span>
+        <span id="session-display" class="text-cyan-400">anon-session</span>
+      </div>
+    </div>
+
+    <!-- Messages Window -->
+    <div id="chat-messages" class="flex-1 overflow-y-auto space-y-4 pr-2 mb-4 max-h-[56vh] scroll-smooth">
+      
+      <!-- Welcome Message from Bot with Interactive Buttons -->
+      <div class="flex items-start space-x-3">
+        <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center flex-shrink-0 text-sm">
+          🤖
+        </div>
+        <div class="chat-bubble-bot p-4 rounded-2xl rounded-tl-none max-w-xl shadow-lg prose-custom text-sm">
+          <p class="font-bold text-cyan-300 mb-1">Halo Juragan! Selamat datang di AgnoCommerce ID 🎮</p>
+          <p>Saya asisten AI resmi AgnoCommerce. Silakan klik menu opsi cepat di bawah atau ketik langsung kebutuhanmu:</p>
+          
+          <div class="my-3 flex flex-wrap gap-1.5">
+            <button onclick="sendQuickPrompt('Berapa harga 86 diamond Mobile Legends hari ini?')" class="action-btn">
+              💎 Cek 86 Diamond ML (Promo)
+            </button>
+            <button onclick="sendQuickPrompt('Saya mau beli Weekly Diamond Pass ML')" class="action-btn">
+              🎫 Beli Weekly Diamond Pass
+            </button>
+            <button onclick="sendQuickPrompt('Tolong cek status invoice INV-9921')" class="action-btn">
+              🧾 Cek Invoice INV-9921
+            </button>
+            <button onclick="sendQuickPrompt('Berapa biaya joki dari Epic ke Mythic?')" class="action-btn">
+              🏆 Hitung Biaya Joki ML
+            </button>
+          </div>
+
+          <p class="text-xs text-slate-400">Kamu juga bisa langsung ketik: <em>"Beli 86 diamond ML ID 88392019 Zone 2102 bayar QRIS"</em></p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Input Form -->
+    <div class="glass-panel p-2 rounded-2xl neon-border-pulse flex items-center space-x-2">
+      <input
+        type="text"
+        id="user-input"
+        placeholder="Ketik pesanan atau pertanyaanmu... (Contoh: Beli 86 diamond ML ID 12345 Zone 2026)"
+        class="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none"
+        onkeydown="if(event.key === 'Enter') handleSend()"
+      />
+      <button
+        onclick="handleSend()"
+        id="btn-send"
+        class="px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-oxanium font-bold text-sm tracking-wider shadow-lg shadow-cyan-500/30 transition flex items-center gap-2"
+      >
+        <span>KIRIM</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </button>
+    </div>
+
+  </main>
+
+  <script>
+    // 1. ANONYMOUS SESSION MANAGEMENT
+    let sessionId = localStorage.getItem('rp_agent_session_id');
+    if (!sessionId) {
+      sessionId = 'anon-' + Math.random().toString(36).substring(2, 9) + '-' + Date.now().toString(36);
+      localStorage.setItem('rp_agent_session_id', sessionId);
+    }
+    document.getElementById('session-display').innerText = sessionId.substring(0, 14) + '...';
+
+    const chatContainer = document.getElementById('chat-messages');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('btn-send');
+
+    // 2. CUSTOM MARKDOWN RENDERER (Ubah link [Tombol](action:prompt) jadi Button Interaktif)
+    const renderer = new marked.Renderer();
+    renderer.link = function(href, title, text) {
+      if (typeof href === 'object' && href !== null) {
+        text = href.text || text;
+        href = href.href || '';
+      }
+      if (href.startsWith('action:')) {
+        const prompt = href.replace('action:', '');
+        const cleanPrompt = prompt.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        return `<button onclick="sendQuickPrompt('${cleanPrompt}')" class="action-btn">⚡ ${text}</button>`;
+      }
+      return `<a href="${href}" target="_blank" class="text-cyan-400 underline hover:text-cyan-300 font-medium">${text}</a>`;
+    };
+    marked.setOptions({ renderer: renderer });
+
+    function formatBotResponse(rawText) {
+      if (!rawText) return '';
+      // 1. Ubah format [Label](action:Prompt) menjadi tombol HTML interaktif
+      const actionRegex = /\[([^\]]+)\]\(action:([^)]+)\)/g;
+      let processed = rawText.replace(actionRegex, function(match, label, prompt) {
+        const cleanPrompt = prompt.replace(/'/g, "\\'").replace(/"/g, '&quot;').trim();
+        return `<button onclick="sendQuickPrompt('${cleanPrompt}')" class="action-btn">⚡ ${label}</button>`;
+      });
+      // 2. Parse Markdown lainnya (tabel, bold, list)
+      return marked.parse(processed);
+    }
+
+    function appendMessage(role, text) {
+      const isUser = role === 'user';
+      const msgDiv = document.createElement('div');
+      msgDiv.className = isUser ? 'flex items-start justify-end space-x-3' : 'flex items-start space-x-3';
+
+      const avatarHtml = isUser
+        ? `<div class="w-8 h-8 rounded-lg bg-blue-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">YOU</div>`
+        : `<div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center flex-shrink-0 text-sm">🤖</div>`;
+
+      const bubbleClass = isUser ? 'chat-bubble-user text-white' : 'chat-bubble-bot prose-custom text-sm';
+      const parsedText = isUser ? escapeHtml(text) : formatBotResponse(text);
+
+      msgDiv.innerHTML = isUser
+        ? `
+          <div class="${bubbleClass} p-3.5 rounded-2xl rounded-tr-none max-w-xl text-sm shadow-md">
+            ${parsedText}
+          </div>
+          ${avatarHtml}
+        `
+        : `
+          ${avatarHtml}
+          <div class="${bubbleClass} p-4 rounded-2xl rounded-tl-none max-w-xl shadow-lg">
+            ${parsedText}
+          </div>
+        `;
+
+      chatContainer.appendChild(msgDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      return msgDiv;
+    }
+
+    function escapeHtml(string) {
+      return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;',
+          '/': '&#x2F;',
+          '`': '&#x60;',
+          '=': '&#x3D;'
+        }[s];
+      });
+    }
+
+    async function handleSend() {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      appendMessage('user', text);
+      userInput.value = '';
+      userInput.disabled = true;
+      sendButton.disabled = true;
+      sendButton.classList.add('opacity-50');
+
+      // Add temporary loading indicator
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'flex items-start space-x-3';
+      loadingDiv.id = 'typing-indicator';
+      loadingDiv.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center flex-shrink-0 text-sm">🤖</div>
+        <div class="chat-bubble-bot p-3 rounded-2xl rounded-tl-none text-xs text-cyan-300 flex items-center space-x-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          <span>RAPS-BOT sedang memproses pesanan...</span>
+        </div>
+      `;
+      chatContainer.appendChild(loadingDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      const startTime = performance.now();
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: text,
+            session_id: sessionId
+          })
+        });
+
+        const elapsed = Math.round(performance.now() - startTime);
+        document.getElementById('latency-text').innerText = `${elapsed}ms`;
+
+        // Remove indicator
+        const ind = document.getElementById('typing-indicator');
+        if (ind) ind.remove();
+
+        if (res.status === 429) {
+          appendMessage('bot', '⚠️ **Rate Limit:** Terlalu banyak pesan dalam waktu singkat. Mohon santai dulu sejenak ya Juragan!');
+          return;
+        }
+
+        const data = await res.json();
+        if (data.success) {
+          appendMessage('bot', data.reply);
+        } else {
+          appendMessage('bot', `⚠️ Terjadi kendala: ${data.detail || 'Gagal memproses pesan'}`);
+        }
+      } catch (err) {
+        const ind = document.getElementById('typing-indicator');
+        if (ind) ind.remove();
+        appendMessage('bot', `⚠️ Gagal terhubung ke backend server: ${err.message}. Pastikan server.py sudah berjalan.`);
+      } finally {
+        userInput.disabled = false;
+        sendButton.disabled = false;
+        sendButton.classList.remove('opacity-50');
+        userInput.focus();
+      }
+    }
+
+    function sendQuickPrompt(text) {
+      userInput.value = text;
+      handleSend();
+    }
+  </script>
+</body>
+</html>

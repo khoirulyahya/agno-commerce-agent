@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mastering Agno for Agentic Web Apps - AgnoCommerce Case Study</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #040d1a;
+      --bg-card: rgba(8, 26, 54, 0.7);
+      --accent-cyan: #00f2fe;
+      --accent-blue: #4facfe;
+      --accent-purple: #7928ca;
+      --accent-neon: #00ff87;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-main);
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+    .font-oxanium { font-family: 'Oxanium', sans-serif; }
+    .font-code { font-family: 'Fira Code', monospace; }
+    .neon-glow {
+      box-shadow: 0 0 30px rgba(0, 242, 254, 0.25);
+    }
+    .neon-border {
+      border: 1px solid rgba(0, 242, 254, 0.35);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 50%, #00ff87 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gradient-purple {
+      background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .glass-card {
+      background: rgba(10, 25, 50, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(79, 172, 254, 0.2);
+    }
+    .slide {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
+    .slide.active {
+      display: block;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between select-none relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-950 via-[#040d1a] to-black">
+
+  <!-- TOP BAR / HEADER -->
+  <header class="w-full px-6 py-4 flex items-center justify-between border-b border-blue-900/40 glass-card z-50 sticky top-0">
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center font-oxanium font-bold text-black text-xl shadow-lg shadow-cyan-500/30">
+        ⚡
+      </div>
+      <div>
+        <h1 class="font-oxanium text-lg font-bold tracking-wider text-white flex items-center gap-2">
+          AGNO <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">AGENTIC ARCHITECTURE</span>
+        </h1>
+        <p class="text-xs text-slate-400">Masterclass: Web Integration &amp; AgnoCommerce Live Transaction Bot</p>
+      </div>
+    </div>
+
+    <!-- Slide Navigation / Indicators -->
+    <div class="flex items-center space-x-4">
+      <span id="slide-counter" class="text-xs font-code text-cyan-400 font-semibold px-3 py-1 bg-cyan-950/60 border border-cyan-800/60 rounded-full">
+        SLIDE 1 / 7
+      </span>
+      <div class="flex items-center space-x-2">
+        <button onclick="prevSlide()" class="p-2 rounded-lg bg-slate-800/80 hover:bg-cyan-900/60 text-slate-300 hover:text-cyan-300 border border-slate-700 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button onclick="nextSlide()" class="p-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-black font-bold border border-cyan-400 transition shadow-lg shadow-cyan-500/20">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN SLIDES CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-8 flex flex-col justify-center">
+
+    <!-- SLIDE 1: PENGANTAR AGNO & ANALOGI -->
+    <div class="slide active" id="slide-1">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-medium">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            Fundamental Zero to Hero
+          </div>
+          <h2 class="font-oxanium text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            Apa itu <span class="gradient-text">Agno</span> &amp; Kenapa Bukan Sekadar LLM Biasa?
+          </h2>
+          <p class="text-slate-300 text-base md:text-lg leading-relaxed">
+            Kalau <strong class="text-white">Ollama / Hermes</strong> adalah "mesin otak" pembuat teks, maka <strong class="text-cyan-300">Agno</strong> adalah "badan robot lengkap dengan tangan &amp; sistem syaraf" yang bisa mengeksekusi aksi nyata: <em>cek database</em>, <em>bikin order top-up</em>, <em>ingat riwayat user</em>, dan <em>ngomong ke frontend web</em>.
+          </p>
+
+          <div class="grid grid-cols-3 gap-4 pt-2">
+            <div class="glass-card p-4 rounded-xl border-l-4 border-l-slate-600">
+              <span class="text-xs font-code text-slate-400 block mb-1">Plain LLM (Hermes)</span>
+              <p class="text-sm font-semibold text-white">Hanya Menjawab Teks</p>
+              <p class="text-xs text-slate-400 mt-1">"Ini perkiraan harga diamond..."</p>
+            </div>
+            <div class="glass-card p-4 rounded-xl border-l-4 border-l-blue-500">
+              <span class="text-xs font-code text-blue-400 block mb-1">OpenRouter / 9Router</span>
+              <p class="text-sm font-semibold text-white">Gerbang Multi-Model</p>
+              <p class="text-xs text-slate-400 mt-1">1 API Key untuk 200+ Model LLM</p>
+            </div>
+            <div class="glass-card p-4 rounded-xl border-l-4 border-l-cyan-400 bg-cyan-950/20">
+              <span class="text-xs font-code text-cyan-400 block mb-1">AGNO Agent</span>
+              <p class="text-sm font-semibold text-white">Eksekusi Transaksi!</p>
+              <p class="text-xs text-slate-400 mt-1">Panggil API Bank, Generate QRIS, Update DB</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="glass-card p-6 rounded-2xl neon-border relative overflow-hidden">
+            <div class="absolute -right-8 -top-8 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
+            <h3 class="font-oxanium text-lg font-bold text-white mb-4 flex items-center gap-2">
+              🤖 Analogi Sederhana di Restoran
+            </h3>
+            <div class="space-y-3 text-sm">
+              <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                <span class="text-cyan-400 font-bold">🧠 LLM (Brain):</span> Chef pintar yang tahu ribuan resep tapi diam di dapur.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                <span class="text-blue-400 font-bold">🦾 Agno Tools (Hands):</span> Pelayan yang catat pesanan, periksa stok di kasir, dan antar makanan.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                <span class="text-emerald-400 font-bold">💾 Agno Storage (Memory):</span> Buku langganan yang ingat meja #4 sukanya jus alpukat tanpa gula.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                <span class="text-purple-400 font-bold">🌐 FastAPI (Bridge):</span> Pintu restoran tempat tamu web/HP bisa pesan kapan saja.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: ARSITEKTUR FULLSTACK AgnoCommerce -->
+    <div class="slide" id="slide-2">
+      <div class="space-y-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950/80 border border-blue-500/40 text-blue-300 text-xs font-medium">
+            System Architecture
+          </div>
+          <h2 class="font-oxanium text-3xl font-extrabold text-white mt-2">
+            Bagaimana AI Terhubung ke Web <span class="gradient-text">AgnoCommerce</span>?
+          </h2>
+          <p class="text-slate-300 text-sm">Alur komunikasi dari React Frontend ke Python Agno Backend hingga eksekusi DB.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="glass-card p-5 rounded-xl border-t-2 border-t-cyan-400 relative">
+            <span class="font-oxanium font-bold text-2xl text-cyan-400/40 absolute right-4 top-3">01</span>
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-xs font-code font-bold">FRONTEND</span>
+            <h4 class="font-bold text-white mt-2 text-base">User Chat Widget</h4>
+            <p class="text-xs text-slate-400 mt-1">User di agno-commerce ketik: <em>"Beli 86 Diamond ML ID 12345 Zone 2026 bayar QRIS"</em></p>
+            <div class="mt-3 text-[11px] font-code text-cyan-300 bg-black/40 p-2 rounded">
+              POST /api/chat { message, session_id }
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-xl border-t-2 border-t-blue-400 relative">
+            <span class="font-oxanium font-bold text-2xl text-blue-400/40 absolute right-4 top-3">02</span>
+            <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-xs font-code font-bold">FASTAPI GATEWAY</span>
+            <h4 class="font-bold text-white mt-2 text-base">Security &amp; Rate Limit</h4>
+            <p class="text-xs text-slate-400 mt-1">Cek spam, validasi anonymous fingerprint, teruskan ke Agno Agent instance.</p>
+            <div class="mt-3 text-[11px] font-code text-blue-300 bg-black/40 p-2 rounded">
+              RateLimit: 10 req/min/IP
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-xl border-t-2 border-t-purple-400 relative">
+            <span class="font-oxanium font-bold text-2xl text-purple-400/40 absolute right-4 top-3">03</span>
+            <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-xs font-code font-bold">AGNO AGENT + TOOLS</span>
+            <h4 class="font-bold text-white mt-2 text-base">Reasoning &amp; Tool Call</h4>
+            <p class="text-xs text-slate-400 mt-1">Agno minta LLM putuskan: Panggil fungsi <code class="text-purple-300">create_topup_order()</code></p>
+            <div class="mt-3 text-[11px] font-code text-purple-300 bg-black/40 p-2 rounded">
+              Model: OpenRouter / Ollama
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-xl border-t-2 border-t-emerald-400 relative">
+            <span class="font-oxanium font-bold text-2xl text-emerald-400/40 absolute right-4 top-3">04</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-xs font-code font-bold">OUTPUT &amp; ACTION</span>
+            <h4 class="font-bold text-white mt-2 text-base">Live Invoice &amp; Stream</h4>
+            <p class="text-xs text-slate-400 mt-1">Order tersimpan di DB, bot kirim respon invoice + tombol bayar QRIS ke layar user!</p>
+            <div class="mt-3 text-[11px] font-code text-emerald-300 bg-black/40 p-2 rounded">
+              Response: SSE Stream + Card UI
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card p-4 rounded-xl bg-blue-950/30 flex items-center justify-between text-xs text-slate-300">
+          <div class="flex items-center gap-2">
+            <span class="text-emerald-400 font-bold">💡 Kenapa Menang Tender?</span>
+            <span>Customer gak perlu cari menu atau scroll ratusan produk: Cukup ngomong ke bot, transaksi selesai dalam 5 detik!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: ANATOMI KODE AGNO -->
+    <div class="slide" id="slide-3">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-5 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-medium">
+            Code Anatomy
+          </div>
+          <h2 class="font-oxanium text-3xl font-extrabold text-white">
+            Hanya 3 Bagian Utama di <span class="gradient-text">Agno</span>
+          </h2>
+          <div class="space-y-3 text-sm">
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="text-cyan-400 font-bold font-code">1. Model Provider:</span>
+              <p class="text-xs text-slate-300 mt-1">Pilih mau pakai <strong class="text-white">OpenRouter</strong> (9router) untuk cloud atau <strong class="text-white">Ollama</strong> untuk offline tanpa biaya token.</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="text-emerald-400 font-bold font-code">2. Tools (Python Functions):</span>
+              <p class="text-xs text-slate-300 mt-1">Cuma fungsi Python biasa + Docstring. Agno otomatis ubah fungsi jadi Schema JSON Tools standar OpenAI!</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="text-purple-400 font-bold font-code">3. Agent Controller:</span>
+              <p class="text-xs text-slate-300 mt-1">Beri instruksi role (system prompt), satukan tools dan model, lalu panggil <code class="text-cyan-300">agent.run()</code>.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="glass-card p-4 rounded-xl border border-slate-700 bg-[#071326] font-code text-xs overflow-x-auto shadow-2xl">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800 text-slate-400 mb-3">
+              <div class="flex items-center space-x-1.5">
+                <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-yellow-500/80 inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
+              </div>
+              <span class="text-[11px] text-cyan-400 font-semibold">agno_transaction_demo.py</span>
+            </div>
+<pre class="text-slate-300 leading-relaxed"><span class="text-purple-400">from</span> agno.agent <span class="text-purple-400">import</span> Agent
+<span class="text-purple-400">from</span> agno.models.openrouter <span class="text-purple-400">import</span> OpenRouter
+<span class="text-slate-500"># ATAU: from agno.models.ollama import Ollama</span>
+
+<span class="text-slate-500"># 1. BIKIN TOOL TRANSAKSI (FUNGSI PYTHON BIASA!)</span>
+<span class="text-blue-400">def</span> <span class="text-yellow-300">beli_diamond_ml</span>(user_id: <span class="text-cyan-300">str</span>, zone_id: <span class="text-cyan-300">str</span>, paket: <span class="text-cyan-300">str</span>) -> <span class="text-cyan-300">str</span>:
+    <span class="text-emerald-400">"""Membuat transaksi top-up Mobile Legends untuk customer.
+    Args:
+        user_id: ID akun ML (contoh: '12345678')
+        zone_id: Zone ID 4-5 digit (contoh: '2026')
+        paket: Nama paket ('86 Diamond', '296 Diamond')
+    """</span>
+    invoice_id = <span class="text-emerald-300">f"INV-ML-{user_id[:4]}-99"</span>
+    <span class="text-purple-400">return</span> <span class="text-emerald-300">f"Order #{invoice_id} berhasil dibuat untuk MLBB {user_id} ({zone_id}). Total: Rp 21.000. Bayar via QRIS."</span>
+
+<span class="text-slate-500"># 2. INISIALISASI AGENT</span>
+agent = Agent(
+    model=OpenRouter(id=<span class="text-emerald-300">"google/gemini-2.5-flash"</span>), <span class="text-slate-500"># atau Ollama(id="llama3.1")</span>
+    tools=[beli_diamond_ml],
+    instructions=[<span class="text-emerald-300">"Kamu adalah Customer Service AI AgnoCommerce. Bantu user order diamond dengan ramah dan konfirmasi detail sebelum transaksi."</span>],
+    show_tool_calls=<span class="text-cyan-400">True</span>
+)
+
+<span class="text-slate-500"># 3. JALANKAN</span>
+agent.print_response(<span class="text-emerald-300">"Saya mau beli 86 diamond dong, ID ku 88392019 zone 2102"</span>, stream=<span class="text-cyan-400">True</span>)</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: OPENROUTER VS OLLAMA -->
+    <div class="slide" id="slide-4">
+      <div class="space-y-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/80 border border-purple-500/40 text-purple-300 text-xs font-medium">
+            Model Routing &amp; Cost
+          </div>
+          <h2 class="font-oxanium text-3xl font-extrabold text-white mt-2">
+            Pilihan Model: <span class="gradient-purple">OpenRouter / 9Router</span> vs <span class="text-cyan-400">Ollama Lokal</span>
+          </h2>
+          <p class="text-slate-300 text-sm">Bagaimana memilih model terbaik sesuai budget &amp; spesifikasi server client.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="glass-card p-6 rounded-2xl border border-purple-500/30 relative">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-oxanium text-lg font-bold text-white flex items-center gap-2">
+                🌐 OpenRouter / 9Router (Cloud)
+              </h3>
+              <span class="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 font-bold text-xs">Production Grade</span>
+            </div>
+            <ul class="space-y-2.5 text-xs text-slate-300">
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 font-bold">✓</span>
+                <span><strong>Akurasi Tool Calling Tinggi:</strong> Model seperti Gemini 2.5 Flash, Claude 3.5 Haiku, atau GPT-4o-mini jarang salah mengisi parameter fungsi.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 font-bold">✓</span>
+                <span><strong>Server Murah (0 GPU):</strong> Backend server client cukup VPS biasa 1-2 vCPU $5/bulan karena komputasi LLM di cloud.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 font-bold">✓</span>
+                <span><strong>Banyak Model Free/Murah:</strong> Ada tier gratis (`meta-llama/llama-3.3-70b-instruct:free`, Gemini Flash murah meriah).</span>
+              </li>
+            </ul>
+            <div class="mt-4 p-3 rounded-lg bg-black/40 font-code text-[11px] text-purple-300">
+              OPENROUTER_API_KEY=sk-or-v1-xxxxx<br>
+              DEFAULT_MODEL=google/gemini-2.5-flash
+            </div>
+          </div>
+
+          <div class="glass-card p-6 rounded-2xl border border-cyan-500/30 relative">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-oxanium text-lg font-bold text-white flex items-center gap-2">
+                💻 Ollama (Local Server)
+              </h3>
+              <span class="px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-bold text-xs">Zero Token Cost</span>
+            </div>
+            <ul class="space-y-2.5 text-xs text-slate-300">
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 font-bold">✓</span>
+                <span><strong>100% Gratis &amp; Offline:</strong> Tidak ada tagihan bulanan per token, data user tetap privat di server internal.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 font-bold">✓</span>
+                <span><strong>Cepat untuk Development:</strong> Sangat enak buat uji coba fungsi tool calling di laptop kamu sekarang.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-yellow-400 font-bold">⚠</span>
+                <span><strong>Butuh Server Spek Tinggi:</strong> Di production butuh VPS dengan RAM minimal 8-16 GB atau GPU untuk model Llama-3.1 / Qwen2.5.</span>
+              </li>
+            </ul>
+            <div class="mt-4 p-3 rounded-lg bg-black/40 font-code text-[11px] text-cyan-300">
+              OLLAMA_HOST=http://localhost:11434<br>
+              DEFAULT_MODEL=llama3.1:latest
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: ANONYMOUS USER & ANTI SPAM -->
+    <div class="slide" id="slide-5">
+      <div class="space-y-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-medium">
+            Production Security &amp; UX
+          </div>
+          <h2 class="font-oxanium text-3xl font-extrabold text-white mt-2">
+            Cara Handle <span class="text-emerald-400">Anonymous User</span> &amp; <span class="text-red-400">Anti-Spam / Bot</span>
+          </h2>
+          <p class="text-slate-300 text-sm">Menjawab pertanyaanmu: <em>"Gimana website landing page tanpa login handle transaksi dan spam?"</em></p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="glass-card p-5 rounded-xl border border-slate-800">
+            <div class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold flex items-center justify-center mb-3">1</div>
+            <h4 class="font-bold text-white text-base">Anonymous Session UUID</h4>
+            <p class="text-xs text-slate-400 mt-2">
+              Saat user pertama kali buka web AgnoCommerce, JavaScript di browser otomatis generate <code class="text-cyan-300">session_id = crypto.randomUUID()</code> dan disimpan di <code class="text-slate-200">localStorage</code>.
+            </p>
+            <p class="text-xs text-slate-400 mt-2">
+              Setiap chat mengirim <code class="text-cyan-300">session_id</code> ini, jadi AI tetap ingat riwayat order user tersebut tanpa perlu login.
+            </p>
+          </div>
+
+          <div class="glass-card p-5 rounded-xl border border-slate-800">
+            <div class="w-8 h-8 rounded-lg bg-yellow-500/20 text-yellow-300 font-bold flex items-center justify-center mb-3">2</div>
+            <h4 class="font-bold text-white text-base">IP &amp; Fingerprint Rate Limit</h4>
+            <p class="text-xs text-slate-400 mt-2">
+              Di FastAPI kita pasang <strong class="text-white">Token Bucket Rate Limiter</strong>: Maksimal 10 pesan chat per menit per IP address.
+            </p>
+            <p class="text-xs text-slate-400 mt-2">
+              Jika ada bot melakukan spam, server langsung mengembalikan status <code class="text-yellow-300">HTTP 429 Too Many Requests</code> sebelum menyedot kuota LLM.
+            </p>
+          </div>
+
+          <div class="glass-card p-5 rounded-xl border border-slate-800">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center mb-3">3</div>
+            <h4 class="font-bold text-white text-base">2-Step Confirmation</h4>
+            <p class="text-xs text-slate-400 mt-2">
+              Tool transaksi tidak langsung mendebit uang secara liar. AI diprogram untuk selalu menampilkan kartu ringkasan invoice:
+            </p>
+            <p class="text-xs text-emerald-300 mt-2 font-semibold">
+              <em>"Apakah data akun ML 88392019 (2102) &amp; 86 Diamond sudah benar? [Konfirmasi &amp; Bayar]"</em>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: FITUR CHATBOT -->
+    <div class="slide" id="slide-6">
+      <div class="space-y-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-medium">
+            Live Showcase
+          </div>
+          <h2 class="font-oxanium text-3xl font-extrabold text-white mt-2">
+            4 Fitur Utama <span class="gradient-text">RAPS-BOT AI</span> untuk Tender
+          </h2>
+          <p class="text-slate-300 text-sm">Fitur yang membuat klien kamu yakin untuk membeli dan pakai bot ini.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="glass-card p-4 rounded-xl flex items-start space-x-3">
+            <div class="text-2xl">💎</div>
+            <div>
+              <h4 class="font-bold text-white text-sm">1. Smart Catalog &amp; Promo Finder</h4>
+              <p class="text-xs text-slate-400 mt-1">Cari harga diamond MLBB, Free Fire, Roblox, Steam Wallet secara real-time dari database produk.</p>
+            </div>
+          </div>
+
+          <div class="glass-card p-4 rounded-xl flex items-start space-x-3">
+            <div class="text-2xl">⚡</div>
+            <div>
+              <h4 class="font-bold text-white text-sm">2. Instant Top-Up &amp; QRIS Generation</h4>
+              <p class="text-xs text-slate-400 mt-1">Buat invoice order langsung dari chat, validasi Nickname MLBB, dan hasilkan URL pembayaran QRIS instan.</p>
+            </div>
+          </div>
+
+          <div class="glass-card p-4 rounded-xl flex items-start space-x-3">
+            <div class="text-2xl">🛡️</div>
+            <div>
+              <h4 class="font-bold text-white text-sm">3. Order Status Tracking (Cek Resi)</h4>
+              <p class="text-xs text-slate-400 mt-1">Customer cukup masukkan no invoice (cth: INV-9921) untuk cek apakah top-up sudah sukses atau pending.</p>
+            </div>
+          </div>
+
+          <div class="glass-card p-4 rounded-xl flex items-start space-x-3">
+            <div class="text-2xl">🎮</div>
+            <div>
+              <h4 class="font-bold text-white text-sm">4. Joki Calculator &amp; Rekomendasi Akun</h4>
+              <p class="text-xs text-slate-400 mt-1">Hitung estimasi biaya joki (Epic -> Mythic) dan carikan akun ML yang dijual sesuai budget user.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-gradient-to-r from-blue-900/40 to-cyan-900/40 border border-cyan-500/30 flex items-center justify-between">
+          <span class="text-sm font-semibold text-white">🚀 Siap Mencoba Starter Code &amp; Test Live Agent?</span>
+          <span class="text-xs text-cyan-300 font-code">Buka folder /Users/mac/Documents/codeX/agno-project</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: ROADMAP SOLO DEV -->
+    <div class="slide" id="slide-7">
+      <div class="space-y-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-medium">
+            Solo Dev Playbook
+          </div>
+          <h2 class="font-oxanium text-3xl font-extrabold text-white mt-2">
+            Cara Eksekusi Sendirian <span class="gradient-text">(Langkah demi Langkah)</span>
+          </h2>
+          <p class="text-slate-300 text-sm">Dari nol sampai deploy ke server client tanpa pusing.</p>
+        </div>
+
+        <div class="space-y-3">
+          <div class="glass-card p-4 rounded-xl flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <span class="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-sm">1</span>
+              <div>
+                <h4 class="font-bold text-white text-sm">Jalankan Server Lokal FastAPI Agno</h4>
+                <p class="text-xs text-slate-400 font-code">cd agno-project && source venv/bin/activate && python server.py</p>
+              </div>
+            </div>
+            <span class="text-xs text-cyan-400 font-code">Port 8000</span>
+          </div>
+
+          <div class="glass-card p-4 rounded-xl flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <span class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center font-bold text-sm">2</span>
+              <div>
+                <h4 class="font-bold text-white text-sm">Buka &amp; Test Chat Widget Frontend</h4>
+                <p class="text-xs text-slate-400">Buka file <code class="text-blue-300">frontend/index.html</code> di browser untuk coba chat langsung.</p>
+              </div>
+            </div>
+            <span class="text-xs text-blue-400 font-code">Live UI</span>
+          </div>
+
+          <div class="glass-card p-4 rounded-xl flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <span class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center font-bold text-sm">3</span>
+              <div>
+                <h4 class="font-bold text-white text-sm">Hubungkan ke Real Database &amp; Payment Gateway</h4>
+                <p class="text-xs text-slate-400">Ganti fungsi mock di <code class="text-purple-300">tools/agno-commerce_tools.py</code> dengan query SQL / API Midtrans / Tripay.</p>
+              </div>
+            </div>
+            <span class="text-xs text-purple-400 font-code">Production DB</span>
+          </div>
+
+          <div class="glass-card p-4 rounded-xl flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <span class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-bold text-sm">4</span>
+              <div>
+                <h4 class="font-bold text-white text-sm">Deploy ke Server Client (Docker / VPS / PM2)</h4>
+                <p class="text-xs text-slate-400">Jalankan dengan Dockerfile atau PM2 di VPS client, pasang Nginx SSL reverse proxy.</p>
+              </div>
+            </div>
+            <span class="text-xs text-emerald-400 font-code">Ready to Sell!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- BOTTOM BAR / CONTROLS -->
+  <footer class="w-full px-6 py-4 glass-card border-t border-blue-900/40 flex items-center justify-between text-xs text-slate-400 z-50">
+    <div class="flex items-center space-x-4">
+      <span>Gunakan tombol <kbd class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700">←</kbd> <kbd class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700">→</kbd> keyboard untuk navigasi slide</span>
+    </div>
+    <div>
+      <span>Repo: <strong class="text-white">Documents/codeX/agno-project</strong></span>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 7;
+
+    function showSlide(index) {
+      if (index < 1) index = 1;
+      if (index > totalSlides) index = totalSlides;
+      currentSlide = index;
+
+      for (let i = 1; i <= totalSlides; i++) {
+        const slide = document.getElementById(`slide-${i}`);
+        if (slide) {
+          if (i === currentSlide) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        }
+      }
+
+      document.getElementById('slide-counter').innerText = `SLIDE ${currentSlide} / ${totalSlides}`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+  </script>
+</body>
+</html>
