@@ -86,13 +86,13 @@
           <h1 class="font-oxanium text-lg font-bold text-white tracking-wide">Libra Books</h1>
           <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">AGENTIC AI</span>
         </div>
-        <p class="text-xs text-slate-400">Toko Buku Digital — Temukan buku impianmu dengan mudah</p>
+        <p class="text-xs text-slate-400">Digital Bookstore — Find your dream books easily</p>
       </div>
     </div>
 
     <div class="flex items-center space-x-3">
       <a href="/slides" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-950/70 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-500/40 text-xs font-semibold flex items-center gap-1.5 transition">
-        <span>📊 Slide Presentasi</span>
+        <span>📊 Presentation Slides</span>
       </a>
       <a href="/docs" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-600 text-xs font-semibold flex items-center gap-1.5 transition">
         <span>📖 Swagger API</span>
@@ -105,19 +105,19 @@
     
     <!-- Category Quick Bar -->
     <div class="flex items-center space-x-2 overflow-x-auto pb-2 mb-2">
-      <button onclick="sendQuickPrompt('Tampilkan buku programming')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-xs font-semibold whitespace-nowrap transition">
+      <button onclick="sendQuickPrompt('Show programming books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-xs font-semibold whitespace-nowrap transition">
         <span>💻 Programming</span>
       </button>
-      <button onclick="sendQuickPrompt('Tampilkan buku bisnis')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-amber-950 text-amber-300 border border-amber-500/30 text-xs font-semibold whitespace-nowrap transition">
+      <button onclick="sendQuickPrompt('Show business books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-amber-950 text-amber-300 border border-amber-500/30 text-xs font-semibold whitespace-nowrap transition">
         <span>📈 Bisnis</span>
       </button>
-      <button onclick="sendQuickPrompt('Tampilkan buku AI dan machine learning')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-violet-950 text-violet-300 border border-violet-500/30 text-xs font-semibold whitespace-nowrap transition">
+      <button onclick="sendQuickPrompt('Show AI and machine learning books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-violet-950 text-violet-300 border border-violet-500/30 text-xs font-semibold whitespace-nowrap transition">
         <span>🤖 AI & ML</span>
       </button>
-      <button onclick="sendQuickPrompt('Tampilkan buku pengembangan diri')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-semibold whitespace-nowrap transition">
+      <button onclick="sendQuickPrompt('Show self-development books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-semibold whitespace-nowrap transition">
         <span>🌱 Self Development</span>
       </button>
-      <button onclick="sendQuickPrompt('Tampilkan buku promo')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-rose-950 text-rose-300 border border-rose-500/30 text-xs font-semibold whitespace-nowrap transition">
+      <button onclick="sendQuickPrompt('Show promo books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-rose-950 text-rose-300 border border-rose-500/30 text-xs font-semibold whitespace-nowrap transition">
         <span>🔥 Promo</span>
       </button>
     </div>
@@ -143,25 +143,25 @@
           📚
         </div>
         <div class="chat-bubble-bot p-4 rounded-2xl rounded-tl-none max-w-xl shadow-lg prose-custom text-sm">
-          <p class="font-bold text-cyan-300 mb-1">Halo Sobat Buku! Selamat datang di Libra Books 📚</p>
-          <p>Saya LibraBot, asisten AI toko buku digitalmu. Mau cari buku apa hari ini?</p>
+          <p class="font-bold text-cyan-300 mb-1">Hello Bookworm! Welcome to Libra Books 📚</p>
+          <p>I am LibraBot, your digital bookstore AI assistant. What book are you looking for today?</p>
           
           <div class="my-3 flex flex-wrap gap-1.5">
             <button onclick="sendQuickPrompt('Rekomendasikan buku Python budget 100rb')" class="action-btn">
-              💡 Rekomendasi Buku Python
+              💡 Python Books
             </button>
-            <button onclick="sendQuickPrompt('Tampilkan buku promo hari ini')" class="action-btn">
-              🔥 Lihat Promo Hari Ini
+            <button onclick="sendQuickPrompt('Show promo books hari ini')" class="action-btn">
+              🔥 View Promos
             </button>
-            <button onclick="sendQuickPrompt('Cek status pesanan INV-0001')" class="action-btn">
-              🧾 Cek Status Pesanan
+            <button onclick="sendQuickPrompt('Check order status INV-0001')" class="action-btn">
+              🧾 Check Order Status
             </button>
-            <button onclick="sendQuickPrompt('Saya mau beli buku The Psychology of Money')" class="action-btn">
-              📖 Beli Buku Favorit
+            <button onclick="sendQuickPrompt('I want to buy The Psychology of Money')" class="action-btn">
+              📖 Buy Favorite Book
             </button>
           </div>
 
-          <p class="text-xs text-slate-400">Kamu juga bisa langsung ketik: <em>"Carikan buku bisnis budget 100rb"</em></p>
+          <p class="text-xs text-slate-400">You can also directly type: <em>"Find business books under 100k"</em></p>
         </div>
       </div>
 
@@ -172,7 +172,7 @@
       <input
         type="text"
         id="user-input"
-        placeholder="Cari buku, minta rekomendasi, atau ketik judul... (Contoh: Buku bisnis budget 100rb)"
+        placeholder="Search books, ask for recommendations... (e.g., Business books under 100k)"
         class="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none"
         onkeydown="if(event.key === 'Enter') handleSend()"
       />
@@ -181,7 +181,7 @@
         id="btn-send"
         class="px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-oxanium font-bold text-sm tracking-wider shadow-lg shadow-cyan-500/30 transition flex items-center gap-2"
       >
-        <span>KIRIM</span>
+        <span>SEND</span>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
       </button>
     </div>
@@ -293,7 +293,7 @@
         <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center flex-shrink-0 text-sm">🤖</div>
         <div class="chat-bubble-bot p-3 rounded-2xl rounded-tl-none text-xs text-cyan-300 flex items-center space-x-2">
           <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          <span>LibraBot sedang mencari buku...</span>
+          <span>LibraBot is searching...</span>
         </div>
       `;
       chatContainer.appendChild(loadingDiv);
@@ -319,7 +319,7 @@
         if (ind) ind.remove();
 
         if (res.status === 429) {
-          appendMessage('bot', '⚠️ **Rate Limit:** Terlalu banyak pesan dalam waktu singkat. Mohon tunggu sebentar ya!');
+          appendMessage('bot', '⚠️ **Rate Limit:** Too many messages in a short time. Please wait a moment!');
           return;
         }
 

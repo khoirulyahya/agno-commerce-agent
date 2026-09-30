@@ -69,7 +69,7 @@
         <h1 class="font-oxanium text-lg font-bold tracking-wider text-white flex items-center gap-2">
           AGNO <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">AGENTIC ARCHITECTURE</span>
         </h1>
-        <p class="text-xs text-slate-400">Masterclass: Web Integration &amp; AgnoCommerce Live Transaction Bot</p>
+        <p class="text-xs text-slate-400">Masterclass: Agentic Web Integration &amp; Libra Books Live Transaction AI</p>
       </div>
     </div>
 
@@ -110,18 +110,18 @@
           <div class="grid grid-cols-3 gap-4 pt-2">
             <div class="glass-card p-4 rounded-xl border-l-4 border-l-slate-600">
               <span class="text-xs font-code text-slate-400 block mb-1">Plain LLM (Hermes)</span>
-              <p class="text-sm font-semibold text-white">Hanya Menjawab Teks</p>
-              <p class="text-xs text-slate-400 mt-1">"Ini perkiraan harga diamond..."</p>
+              <p class="text-sm font-semibold text-white">Only Answers Text</p>
+              <p class="text-xs text-slate-400 mt-1">"The estimated book price is..."</p>
             </div>
             <div class="glass-card p-4 rounded-xl border-l-4 border-l-blue-500">
               <span class="text-xs font-code text-blue-400 block mb-1">OpenRouter / 9Router</span>
-              <p class="text-sm font-semibold text-white">Gerbang Multi-Model</p>
+              <p class="text-sm font-semibold text-white">Multi-Model Gateway</p>
               <p class="text-xs text-slate-400 mt-1">1 API Key untuk 200+ Model LLM</p>
             </div>
             <div class="glass-card p-4 rounded-xl border-l-4 border-l-cyan-400 bg-cyan-950/20">
               <span class="text-xs font-code text-cyan-400 block mb-1">AGNO Agent</span>
-              <p class="text-sm font-semibold text-white">Eksekusi Transaksi!</p>
-              <p class="text-xs text-slate-400 mt-1">Panggil API Bank, Generate QRIS, Update DB</p>
+              <p class="text-sm font-semibold text-white">Executes Transactions!</p>
+              <p class="text-xs text-slate-400 mt-1">Call Bank API, Generate Payment, Update DB</p>
             </div>
           </div>
         </div>
@@ -130,20 +130,20 @@
           <div class="glass-card p-6 rounded-2xl neon-border relative overflow-hidden">
             <div class="absolute -right-8 -top-8 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
             <h3 class="font-oxanium text-lg font-bold text-white mb-4 flex items-center gap-2">
-              🤖 Analogi Sederhana di Restoran
+              🤖 Simple Restaurant Analogy
             </h3>
             <div class="space-y-3 text-sm">
               <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span class="text-cyan-400 font-bold">🧠 LLM (Brain):</span> Chef pintar yang tahu ribuan resep tapi diam di dapur.
+                <span class="text-cyan-400 font-bold">🧠 LLM (Brain):</span> Smart chef knowing thousands of recipes but stays in the kitchen.
               </div>
               <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span class="text-blue-400 font-bold">🦾 Agno Tools (Hands):</span> Pelayan yang catat pesanan, periksa stok di kasir, dan antar makanan.
+                <span class="text-blue-400 font-bold">🦾 Agno Tools (Hands):</span> Waiter taking orders, checking stock, and serving food.
               </div>
               <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span class="text-emerald-400 font-bold">💾 Agno Storage (Memory):</span> Buku langganan yang ingat meja #4 sukanya jus alpukat tanpa gula.
+                <span class="text-emerald-400 font-bold">💾 Agno Storage (Memory):</span> Guestbook remembering table #4 likes avocado juice with no sugar.
               </div>
               <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span class="text-purple-400 font-bold">🌐 FastAPI (Bridge):</span> Pintu restoran tempat tamu web/HP bisa pesan kapan saja.
+                <span class="text-purple-400 font-bold">🌐 FastAPI (Bridge):</span> Restaurant door where web/mobile guests order anytime.
               </div>
             </div>
           </div>
@@ -256,12 +256,12 @@
 <span class="text-slate-500"># ATAU: from agno.models.ollama import Ollama</span>
 
 <span class="text-slate-500"># 1. BIKIN TOOL TRANSAKSI (FUNGSI PYTHON BIASA!)</span>
-<span class="text-blue-400">def</span> <span class="text-yellow-300">beli_diamond_ml</span>(user_id: <span class="text-cyan-300">str</span>, zone_id: <span class="text-cyan-300">str</span>, paket: <span class="text-cyan-300">str</span>) -> <span class="text-cyan-300">str</span>:
-    <span class="text-emerald-400">"""Membuat transaksi top-up Mobile Legends untuk customer.
+<span class="text-blue-400">def</span> <span class="text-yellow-300">buy_digital_book</span>(user_id: <span class="text-cyan-300">str</span>, zone_id: <span class="text-cyan-300">str</span>, book_sku: <span class="text-cyan-300">str</span>) -> <span class="text-cyan-300">str</span>:
+    <span class="text-emerald-400">"""Creates a digital book transaction for the customer.
     Args:
         user_id: ID akun ML (contoh: '12345678')
         zone_id: Zone ID 4-5 digit (contoh: '2026')
-        paket: Nama paket ('86 Diamond', '296 Diamond')
+        book_sku: Nama book_sku ('86 Diamond', '296 Diamond')
     """</span>
     invoice_id = <span class="text-emerald-300">f"INV-ML-{user_id[:4]}-99"</span>
     <span class="text-purple-400">return</span> <span class="text-emerald-300">f"Order #{invoice_id} berhasil dibuat untuk MLBB {user_id} ({zone_id}). Total: Rp 21.000. Bayar via QRIS."</span>
@@ -269,13 +269,13 @@
 <span class="text-slate-500"># 2. INISIALISASI AGENT</span>
 agent = Agent(
     model=OpenRouter(id=<span class="text-emerald-300">"google/gemini-2.5-flash"</span>), <span class="text-slate-500"># atau Ollama(id="llama3.1")</span>
-    tools=[beli_diamond_ml],
-    instructions=[<span class="text-emerald-300">"Kamu adalah Customer Service AI AgnoCommerce. Bantu user order diamond dengan ramah dan konfirmasi detail sebelum transaksi."</span>],
+    tools=[buy_digital_book],
+    instructions=[<span class="text-emerald-300">"You are the Libra Books AI Assistant. Help users order books friendly and confirm details before transactions."</span>],
     show_tool_calls=<span class="text-cyan-400">True</span>
 )
 
 <span class="text-slate-500"># 3. JALANKAN</span>
-agent.print_response(<span class="text-emerald-300">"Saya mau beli 86 diamond dong, ID ku 88392019 zone 2102"</span>, stream=<span class="text-cyan-400">True</span>)</pre>
+agent.print_response(<span class="text-emerald-300">"I want to buy Clean Code, my name is Andi Wijaya"</span>, stream=<span class="text-cyan-400">True</span>)</pre>
           </div>
         </div>
       </div>
@@ -410,7 +410,7 @@ agent.print_response(<span class="text-emerald-300">"Saya mau beli 86 diamond do
             Live Showcase
           </div>
           <h2 class="font-oxanium text-3xl font-extrabold text-white mt-2">
-            4 Fitur Utama <span class="gradient-text">RAPS-BOT AI</span> untuk Tender
+            4 Key Features of <span class="gradient-text">LibraBot AI</span> for Production
           </h2>
           <p class="text-slate-300 text-sm">Fitur yang membuat klien kamu yakin untuk membeli dan pakai bot ini.</p>
         </div>
@@ -420,7 +420,7 @@ agent.print_response(<span class="text-emerald-300">"Saya mau beli 86 diamond do
             <div class="text-2xl">💎</div>
             <div>
               <h4 class="font-bold text-white text-sm">1. Smart Catalog &amp; Promo Finder</h4>
-              <p class="text-xs text-slate-400 mt-1">Cari harga diamond MLBB, Free Fire, Roblox, Steam Wallet secara real-time dari database produk.</p>
+              <p class="text-xs text-slate-400 mt-1">Search digital book prices across Programming, Business, AI, and Self Development in real-time.</p>
             </div>
           </div>
 
@@ -436,7 +436,7 @@ agent.print_response(<span class="text-emerald-300">"Saya mau beli 86 diamond do
             <div class="text-2xl">🛡️</div>
             <div>
               <h4 class="font-bold text-white text-sm">3. Order Status Tracking (Cek Resi)</h4>
-              <p class="text-xs text-slate-400 mt-1">Customer cukup masukkan no invoice (cth: INV-9921) untuk cek apakah top-up sudah sukses atau pending.</p>
+              <p class="text-xs text-slate-400 mt-1">Customers simply input their invoice (e.g., INV-0001) to check if the book download link is ready.</p>
             </div>
           </div>
 

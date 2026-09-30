@@ -1,6 +1,6 @@
 """
 Agent Factory: Multi-Provider LLM Switcher (Gemini 5-Account Key Pool with Auto Failover, OpenRouter, Ollama)
-Membuat instance Agno Agent yang siap pakai untuk LibraBot — Digital Bookstore AI Assistant.
+Creates a ready-to-use Agno Agent instance for LibraBot — Digital Bookstore AI Assistant.
 """
 import os
 import sys
@@ -9,7 +9,6 @@ from pathlib import Path
 from typing import Optional, List, Dict, Any
 from dotenv import load_dotenv
 
-# Load env variables from local .env and user's ~/.env
 load_dotenv()
 load_dotenv(os.path.expanduser("~/.env"))
 
@@ -18,7 +17,6 @@ from agno.models.openai import OpenAIChat
 from agno.models.openrouter import OpenRouter
 from agno.models.ollama import Ollama
 
-# Import tools LibraBot Bookstore
 sys.path.append(str(Path(__file__).parent.parent))
 from tools.commerce_tools import (
     get_book_catalog,
@@ -29,39 +27,39 @@ from tools.commerce_tools import (
 )
 
 LIBRABOT_SYSTEM_PROMPT = """
-Kamu adalah "LibraBot" — AI Assistant resmi dari Libra Books, toko buku digital terpercaya.
+You are "LibraBot" — the official AI Assistant of Libra Books, a trusted digital bookstore.
 Website: https://libra-books.com/
 
-Karakter & Gaya Komunikasi:
-1. Panggil pembaca dengan sebutan hangat: "Kak", "Sobat Buku", atau nama mereka.
-2. Nada bicara: Ramah, antusias soal buku, informatif, dan membantu.
-3. Gunakan formatting Markdown yang rapi (bold, bullet point, tabel harga).
+Character & Communication Style:
+1. Address the reader warmly: "Bookworm", "Reader", or by their name.
+2. Tone: Friendly, enthusiastic about books, informative, and helpful. Language: English.
+3. Use neat Markdown formatting (bold, bullet points, price tables).
 
-Format Tombol Interaktif (PENTING):
-Setiap kali merekomendasikan buku atau memberikan pilihan, SELALU sertakan tombol aksi:
-`[Label Tombol](action:Pesan Yang Dikirim)`
+Interactive Button Format (IMPORTANT):
+Whenever recommending a book or providing options, ALWAYS include an action button:
+`[Button Label](action:Message To Send)`
 
-Contoh Tombol Interaktif:
-- `[📖 Beli Clean Code (Rp 125.000)](action:Saya mau beli buku Clean Code)`
-- `[🔥 Lihat Promo Hari Ini](action:Tampilkan buku yang sedang promo)`
-- `[🧾 Cek Status Pesanan](action:Cek status pesanan saya)`
-- `[💡 Rekomendasi Buku Python](action:Rekomendasikan buku untuk belajar Python)`
+Example Interactive Buttons:
+- `[📖 Buy Clean Code (Rp 125.000)](action:I want to buy the Clean Code book)`
+- `[🔥 View Today's Promos](action:Show books on promo)`
+- `[🧾 Check Order Status](action:Check my order status)`
+- `[💡 Python Book Recommendations](action:Recommend books to learn Python)`
 
-Kemampuan & Tools Kamu:
-- Cari dan tampilkan katalog buku digital per kategori (Programming, Business, Self Development, AI/ML).
-- Rekomendasikan buku berdasarkan minat dan budget pembaca.
-- Tampilkan buku yang sedang promo/diskon.
-- Buat pesanan pembelian dan generate invoice + link download.
-- Cek status pesanan dan link download buku.
+Your Capabilities & Tools:
+- Search and display digital book catalogs by category (Programming, Business, Self Development, AI/ML).
+- Recommend books based on reader's interest and budget.
+- Display books currently on promo/discount.
+- Create purchase orders and generate invoice + download link.
+- Check order status and book download link.
 
-Aturan Penting:
-1. Saat merekomendasikan buku, selalu tanyakan minat dan budget jika belum disebutkan.
-2. Saat order berhasil, tampilkan Invoice ID, judul buku, harga, dan link pembayaran.
-3. Setelah pembayaran, file langsung bisa diunduh — tidak perlu menunggu konfirmasi manual.
-4. Selalu ringkas, informatif, dan tidak bertele-tele.
+Important Rules:
+1. When recommending books, always ask for their interest and budget if not mentioned.
+2. Upon successful order, display the Invoice ID, book title, price, and payment link.
+3. Emphasize that after payment, the file is immediately available for download.
+4. Always be concise, informative, and avoid rambling.
 """
 
-AgnoCommerce_SYSTEM_PROMPT = LIBRABOT_SYSTEM_PROMPT  # backward compat alias
+AgnoCommerce_SYSTEM_PROMPT = LIBRABOT_SYSTEM_PROMPT
 
 ALL_COMMERCE_TOOLS = [
     get_book_catalog,
@@ -71,13 +69,9 @@ ALL_COMMERCE_TOOLS = [
     get_promo_books
 ]
 
-# ============================================================
-# GEMINI MULTI-ACCOUNT KEY POOL (5 AKUN AUTO ROTATION & FAILOVER)
-# ============================================================
 class GeminiKeyPool:
     _current_index = 0
     _keys: List[str] = []
-    _rate_limited_until: Dict[str, float] = {}
 
     @classmethod
     def get_keys(cls) -> List[str]:
@@ -85,106 +79,73 @@ class GeminiKeyPool:
             raw_keys = os.getenv("GEMINI_API_KEYS", "")
             if raw_keys:
                 cls._keys = [k.strip() for k in raw_keys.split(",") if k.strip()]
-            
-            if not cls._keys:
-                for i in range(1, 10):
-                    k = os.getenv(f"GEMINI_API_KEY_{i}")
-                    if k and k.strip():
-                        cls._keys.append(k.strip())
-            
-            single_key = os.getenv("GEMINI_API_KEY")
-            if single_key and single_key.strip() and single_key not in cls._keys:
-                cls._keys.append(single_key.strip())
-                
+            else:
+                single_key = os.getenv("GEMINI_API_KEY")
+                if single_key:
+                    cls._keys = [single_key]
         return cls._keys
 
     @classmethod
     def get_next_key(cls) -> str:
         keys = cls.get_keys()
         if not keys:
-            raise ValueError("Tidak ditemukan GEMINI_API_KEY di .env atau ~/.env")
-        
-        now = time.time()
-        # Cari key yang tidak sedang dalam status rate limited
-        for _ in range(len(keys)):
-            key = keys[cls._current_index % len(keys)]
-            cls._current_index = (cls._current_index + 1) % len(keys)
-            
-            until = cls._rate_limited_until.get(key, 0)
-            if now >= until:
-                return key
-                
-        # Jika semua kena rate limit, kembalikan key terlama
-        return keys[cls._current_index % len(keys)]
-
-    @classmethod
-    def mark_rate_limited(cls, key: str, cooldown_seconds: float = 60.0):
-        cls._rate_limited_until[key] = time.time() + cooldown_seconds
-
+            return ""
+        key = keys[cls._current_index]
+        cls._current_index = (cls._current_index + 1) % len(keys)
+        return key
 
 def create_commerce_agent(
     session_id: Optional[str] = None,
-    provider: Optional[str] = None,
-    model_name: Optional[str] = None,
+    provider: str = "gemini",
     api_key: Optional[str] = None,
-    temperature: float = 0.4
+    tools=ALL_COMMERCE_TOOLS,
+    system_prompt: str = LIBRABOT_SYSTEM_PROMPT
 ) -> Agent:
-    """Membuat instance Agno Agent dengan multi-provider & Gemini multi-key pool support."""
-    chosen_provider = (provider or os.getenv("AI_PROVIDER", "gemini")).lower().strip()
+    provider = provider.lower()
     
-    if chosen_provider == "ollama":
-        ollama_model = model_name or os.getenv("OLLAMA_MODEL", "llama3.1")
-        ollama_host = os.getenv("OLLAMA_HOST", "http://localhost:11434")
-        model = Ollama(id=ollama_model, host=ollama_host)
-        
-    elif chosen_provider == "openrouter":
-        or_model = model_name or os.getenv("OPENROUTER_MODEL", "google/gemini-2.5-flash")
-        key = api_key or os.getenv("OPENROUTER_API_KEY")
-        model = OpenRouter(id=or_model, api_key=key)
-        
-    else:
-        # Default 'gemini': Google Gemini Endpoint via OpenAIChat + Auto Multi-Key Pool
-        gemini_model = model_name or os.getenv("GEMINI_MODEL", "models/gemini-flash-latest")
+    if provider == "gemini":
+        from agno.models.google import Gemini
         chosen_key = api_key or GeminiKeyPool.get_next_key()
-        
-        model = OpenAIChat(
-            id=gemini_model,
-            api_key=chosen_key,
-            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-            temperature=temperature
-        )
-        
-    agent = Agent(
+        model = Gemini(id="gemini-2.5-flash", api_key=chosen_key)
+    elif provider == "openrouter":
+        model_id = os.getenv("OPENROUTER_MODEL", "google/gemini-2.5-flash")
+        model = OpenRouter(id=model_id, api_key=api_key or os.getenv("OPENROUTER_API_KEY"))
+    elif provider == "ollama":
+        model_id = os.getenv("OLLAMA_MODEL", "llama3.2:3b")
+        model = Ollama(id=model_id)
+    else:
+        raise ValueError(f"Unsupported provider: {provider}")
+
+    return Agent(
         model=model,
-        instructions=[AgnoCommerce_SYSTEM_PROMPT],
-        tools=ALL_COMMERCE_TOOLS,
+        session_id=session_id,
+        tools=tools,
+        instructions=[system_prompt],
+        show_tool_calls=True,
         markdown=True
     )
-    
-    return agent
-
 
 def run_agent_with_failover(message: str, session_id: str, max_retries: int = 5) -> Any:
-    """Menjalankan agent dengan proteksi auto-failover ke akun Gemini lain jika satu akun terkena 429/503."""
     provider = os.getenv("AI_PROVIDER", "gemini").lower()
-    keys = GeminiKeyPool.get_keys() if provider == "gemini" else [None]
+    last_error = None
     
-    last_err = None
-    for attempt in range(min(max_retries, max(1, len(keys)))):
+    for attempt in range(max_retries):
         try:
             key = GeminiKeyPool.get_next_key() if provider == "gemini" else None
-            agent = create_commerce_agent(session_id=session_id, api_key=key)
-            return agent.run(message)
+            agent = create_commerce_agent(session_id=session_id, provider=provider, api_key=key)
+            return agent.run(message, stream=False)
         except Exception as e:
-            last_err = e
-            err_str = str(e).lower()
-            # Retry jika terkena rate limit (429) atau server busy (503/unavailable)
-            if any(term in err_str for term in ["429", "503", "quota", "rate", "unavailable", "exhausted", "demand"]):
-                if key:
-                    GeminiKeyPool.mark_rate_limited(key, cooldown_seconds=30)
-                time.sleep(0.5)
+            last_error = e
+            error_str = str(e).lower()
+            if "429" in error_str or "503" in error_str or "quota" in error_str:
+                time.sleep(1)
                 continue
             else:
                 raise e
                 
-    raise last_err or RuntimeError("Gagal memproses pesan setelah mencoba semua akun.")
+    fallback_provider = "openrouter" if provider == "gemini" else "gemini"
+    try:
+        agent = create_commerce_agent(session_id=session_id, provider=fallback_provider)
+        return agent.run(message, stream=False)
+    except Exception as fallback_e:
+        raise Exception(f"All providers failed. Primary error: {last_error}. Fallback error: {fallback_e}")

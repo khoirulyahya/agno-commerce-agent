@@ -1,12 +1,12 @@
 """
-Tools Transaksi & Layanan Toko Buku Digital — LibraBot
-Fungsi-fungsi Python ini otomatis diubah oleh Agno menjadi Function Tools yang bisa dipanggil oleh AI Agent.
+Transaction & Digital Bookstore Tools — LibraBot
+These Python functions are automatically converted by Agno into Function Tools callable by the AI Agent.
 """
 import uuid
 from datetime import datetime
 from typing import Optional, Dict, Any, List
 
-# Mock Database Catalog Buku (Di production diganti PostgreSQL / Elasticsearch)
+# Mock Digital Book Catalog Database
 DATABASE_CATALOG = {
     "programming": {
         "name": "Programming & Tech",
@@ -19,7 +19,7 @@ DATABASE_CATALOG = {
         ]
     },
     "business": {
-        "name": "Bisnis & Entrepreneurship",
+        "name": "Business & Entrepreneurship",
         "books": [
             {"sku": "BIZ-001", "title": "Zero to One", "author": "Peter Thiel", "price": 89000, "format": "PDF+EPUB", "promo": True},
             {"sku": "BIZ-002", "title": "The Lean Startup", "author": "Eric Ries", "price": 85000, "format": "PDF", "promo": False},
@@ -29,7 +29,7 @@ DATABASE_CATALOG = {
         ]
     },
     "self_development": {
-        "name": "Pengembangan Diri",
+        "name": "Self Development",
         "books": [
             {"sku": "DEV-001", "title": "Deep Work", "author": "Cal Newport", "price": 82000, "format": "PDF+EPUB", "promo": False},
             {"sku": "DEV-002", "title": "Ikigai", "author": "Héctor García", "price": 69000, "format": "PDF+EPUB", "promo": True},
@@ -47,7 +47,6 @@ DATABASE_CATALOG = {
     }
 }
 
-# Mock Orders DB
 ORDERS_DB: Dict[str, Dict[str, Any]] = {
     "INV-0001": {
         "invoice_id": "INV-0001",
@@ -59,17 +58,16 @@ ORDERS_DB: Dict[str, Dict[str, Any]] = {
         "status": "SUCCESS",
         "download_link": "https://libra-books.com/download/INV-0001",
         "created_at": "2026-09-28 10:30:00",
-        "notes": "File PDF+EPUB siap diunduh."
+        "notes": "PDF+EPUB files are ready to download."
     }
 }
 
-
 def get_book_catalog(category: Optional[str] = None, search: Optional[str] = None) -> Dict[str, Any]:
-    """Mengambil katalog buku digital berdasarkan kategori atau kata kunci pencarian.
+    """Retrieves digital book catalog based on category or search keyword.
 
     Args:
-        category: Kategori buku ('programming', 'business', 'self_development', 'ai_ml'). Kosong = semua.
-        search: Kata kunci judul atau penulis untuk pencarian.
+        category: Book category ('programming', 'business', 'self_development', 'ai_ml'). Empty = all.
+        search: Keyword for title or author search.
     """
     if search:
         results = []
@@ -79,28 +77,27 @@ def get_book_catalog(category: Optional[str] = None, search: Optional[str] = Non
                     results.append({**book, "category": cat_data["name"]})
         if results:
             return {"status": "success", "query": search, "results": results}
-        return {"status": "not_found", "message": f"Buku dengan kata kunci '{search}' tidak ditemukan."}
+        return {"status": "not_found", "message": f"Books with keyword '{search}' not found."}
 
     if category:
         slug = category.lower().replace(" ", "_")
         if slug in DATABASE_CATALOG:
             return {"status": "success", "category": slug, "data": DATABASE_CATALOG[slug]}
-        return {"status": "error", "message": f"Kategori '{category}' tidak ada. Tersedia: {list(DATABASE_CATALOG.keys())}"}
+        return {"status": "error", "message": f"Category '{category}' does not exist. Available: {list(DATABASE_CATALOG.keys())}"}
 
     return {"status": "success", "all_categories": DATABASE_CATALOG}
 
-
 def get_book_recommendation(interest: str, budget: Optional[int] = None) -> Dict[str, Any]:
-    """Memberikan rekomendasi buku berdasarkan minat dan budget pembaca.
+    """Provides book recommendations based on reader's interest and budget.
 
     Args:
-        interest: Topik minat (contoh: 'python', 'investasi', 'produktivitas', 'AI')
-        budget: Budget maksimal dalam rupiah (opsional)
+        interest: Topic of interest (e.g., 'python', 'investment', 'productivity', 'AI')
+        budget: Maximum budget in IDR (optional)
     """
     keyword_map = {
         "python": ["PRG-003"], "programming": ["PRG-001", "PRG-002"],
-        "system design": ["PRG-004", "PRG-005"], "bisnis": ["BIZ-001", "BIZ-002", "BIZ-005"],
-        "investasi": ["BIZ-005"], "produktivitas": ["DEV-001", "DEV-002"],
+        "system design": ["PRG-004", "PRG-005"], "business": ["BIZ-001", "BIZ-002", "BIZ-005"],
+        "investment": ["BIZ-005"], "productivity": ["DEV-001", "DEV-002"],
         "habit": ["BIZ-004"], "ai": ["AI-001", "AI-003"], "machine learning": ["AI-001", "AI-002"],
         "mindset": ["DEV-004"], "startup": ["BIZ-002", "BIZ-001"]
     }
@@ -118,7 +115,6 @@ def get_book_recommendation(interest: str, budget: Optional[int] = None) -> Dict
                     recommendations.append(book)
 
     if not recommendations:
-        # Fallback: promo books within budget
         for cat_data in DATABASE_CATALOG.values():
             for book in cat_data["books"]:
                 if book["promo"] and (budget is None or book["price"] <= budget):
@@ -131,18 +127,17 @@ def get_book_recommendation(interest: str, budget: Optional[int] = None) -> Dict
         "recommendations": recommendations[:4]
     }
 
-
 def create_book_order(
     buyer_name: str,
     book_sku: str,
     payment_method: str = "QRIS"
 ) -> Dict[str, Any]:
-    """Membuat pesanan pembelian buku digital dan menghasilkan invoice + link download.
+    """Creates a digital book purchase order and generates invoice + download link.
 
     Args:
-        buyer_name: Nama pembeli
-        book_sku: Kode SKU buku (contoh: 'PRG-001', 'BIZ-005')
-        payment_method: Metode pembayaran ('QRIS', 'Transfer Bank', 'GoPay', 'OVO')
+        buyer_name: Buyer's name
+        book_sku: Book SKU code (e.g., 'PRG-001', 'BIZ-005')
+        payment_method: Payment method ('QRIS', 'Bank Transfer', 'Credit Card')
     """
     selected_book = None
     for cat_data in DATABASE_CATALOG.values():
@@ -152,7 +147,7 @@ def create_book_order(
                 break
 
     if not selected_book:
-        return {"status": "error", "message": f"Buku dengan SKU '{book_sku}' tidak ditemukan."}
+        return {"status": "error", "message": f"Book with SKU '{book_sku}' not found."}
 
     invoice_id = f"INV-{uuid.uuid4().hex[:4].upper()}"
     order = {
@@ -168,26 +163,24 @@ def create_book_order(
         "download_link": f"https://libra-books.com/download/{invoice_id}",
         "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "pay_link": f"https://libra-books.com/pay/{invoice_id}",
-        "notes": f"Setelah pembayaran dikonfirmasi, file {selected_book['format']} siap diunduh."
+        "notes": f"Once payment is confirmed, the {selected_book['format']} file will be ready for download."
     }
     ORDERS_DB[invoice_id] = order
-    return {"status": "success", "message": "Pesanan berhasil dibuat!", "order": order}
-
+    return {"status": "success", "message": "Order successfully created!", "order": order}
 
 def check_order_status(invoice_id: str) -> Dict[str, Any]:
-    """Mengecek status pesanan dan link download buku berdasarkan Invoice ID.
+    """Checks order status and book download link based on Invoice ID.
 
     Args:
-        invoice_id: Nomor invoice (contoh: 'INV-0001')
+        invoice_id: Invoice number (e.g., 'INV-0001')
     """
     order = ORDERS_DB.get(invoice_id.upper())
     if not order:
-        return {"status": "not_found", "message": f"Invoice '{invoice_id}' tidak ditemukan."}
+        return {"status": "not_found", "message": f"Invoice '{invoice_id}' not found."}
     return {"status": "success", "order": order}
 
-
 def get_promo_books() -> Dict[str, Any]:
-    """Mengambil daftar buku digital yang sedang dalam promo atau diskon."""
+    """Retrieves a list of digital books currently on promo or discount."""
     promo_list = []
     for cat_data in DATABASE_CATALOG.values():
         for book in cat_data["books"]:

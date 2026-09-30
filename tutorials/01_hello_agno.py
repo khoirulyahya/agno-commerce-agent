@@ -1,17 +1,18 @@
 """
-MODULE 01: Hello Agno - Fundamental Tercepat Memulai Agno Agent
-Jalankan: python tutorials/01_hello_agno.py
+MODULE 01: Hello Agno - Fastest Fundamental to Start Agno Agent
+Run: python tutorials/01_hello_agno.py
 """
 import sys
 from pathlib import Path
-
-# Load agent factory & Gemini Key Pool
 sys.path.append(str(Path(__file__).parent.parent))
-from src.agent_factory import create_commerce_agent
 
-# 1. Buat Agent (Otomatis pakai Gemini Multi-Key Pool / Ollama)
-agent = create_commerce_agent()
+from agno.agent import Agent
+from agno.models.google import Gemini
 
-# 2. Jalankan Chat
-print("--- TEST RESPONSE DARI RAPS-BOT ---")
-agent.print_response("Halo! Kamu siapa dan bisa bantu apa saja di AgnoCommerce?", stream=True)
+agent = Agent(
+    model=Gemini(id="gemini-2.5-flash"),
+    description="You are LibraBot, a digital bookstore AI.",
+    markdown=True
+)
+
+agent.print_response("Who are you and what do you do?", stream=True)
