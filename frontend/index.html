@@ -325,30 +325,47 @@
     const userInput = document.getElementById('user-input');
     const sendButton = document.getElementById('btn-send');
 
-    // 3. CUSTOM MARKDOWN RENDERER
+    // 3. CUSTOM MARKDOWN RENDERER & ACTION BUTTONS
     const renderer = new marked.Renderer();
-    renderer.link = function(href, title, text) {
-      if (typeof href === 'object' && href !== null) {
-        text = href.text || text;
-        href = href.href || '';
+    renderer.link = function(arg1, arg2, arg3) {
+      let href = '', title = '', text = '';
+      if (typeof arg1 === 'object' && arg1 !== null) {
+        href = arg1.href || '';
+        title = arg1.title || '';
+        text = arg1.text || '';
+      } else {
+        href = arg1 || '';
+        title = arg2 || '';
+        text = arg3 || '';
       }
+
       if (href.startsWith('action:')) {
-        const prompt = href.replace('action:', '');
-        const cleanPrompt = prompt.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        const rawPrompt = decodeURIComponent(href.replace(/^action:/, '')).trim();
+        const cleanPrompt = rawPrompt.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
         return `<button onclick="sendQuickPrompt('${cleanPrompt}')" class="action-btn">⚡ ${text}</button>`;
       }
       return `<a href="${href}" target="_blank" class="text-cyan-400 underline hover:text-cyan-300 font-medium">${text}</a>`;
     };
-    marked.setOptions({ renderer: renderer });
+    marked.setOptions({ renderer: renderer, gfm: true, breaks: true });
 
     function formatBotResponse(rawText) {
       if (!rawText) return '';
-      const actionRegex = /\[([^\]]+)\]\(action:([^)]+)\)/g;
-      let processed = rawText.replace(actionRegex, function(match, label, prompt) {
-        const cleanPrompt = prompt.replace(/'/g, "\\'").replace(/"/g, '&quot;').trim();
+      // 1. Render Markdown with custom link renderer
+      let html = marked.parse(rawText);
+
+      // 2. Post-process: Convert any remaining <a href="action:..."> into buttons
+      html = html.replace(/<a\s+[^>]*href=["']action:([^"']+)["'][^>]*>(.*?)<\/a>/gi, function(match, prompt, label) {
+        const cleanPrompt = decodeURIComponent(prompt).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;').trim();
         return `<button onclick="sendQuickPrompt('${cleanPrompt}')" class="action-btn">⚡ ${label}</button>`;
       });
-      return marked.parse(processed);
+
+      // 3. Post-process: Convert any raw unparsed [Label](action:Prompt)
+      html = html.replace(/\[([^\]]+)\]\(action:([^)]+)\)/g, function(match, label, prompt) {
+        const cleanPrompt = decodeURIComponent(prompt).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;').trim();
+        return `<button onclick="sendQuickPrompt('${cleanPrompt}')" class="action-btn">⚡ ${label}</button>`;
+      });
+
+      return html;
     }
 
     function appendMessage(role, text) {
