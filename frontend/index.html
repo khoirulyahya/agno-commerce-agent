@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>AgnoCommerce ID - Live AI Transaction Bot</title>
+  <title>Libra Books — AI Bookstore Assistant</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,10 +83,10 @@
       </div>
       <div>
         <div class="flex items-center gap-2">
-          <h1 class="font-oxanium text-lg font-bold text-white tracking-wide">AgnoCommerce ID</h1>
+          <h1 class="font-oxanium text-lg font-bold text-white tracking-wide">Libra Books</h1>
           <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">AGENTIC AI</span>
         </div>
-        <p class="text-xs text-slate-400">Toko Top Up &amp; Joki Mobile Legends Terpercaya Juragan</p>
+        <p class="text-xs text-slate-400">Toko Buku Digital — Temukan buku impianmu dengan mudah</p>
       </div>
     </div>
 
@@ -103,22 +103,22 @@
   <!-- MAIN CHAT CONTAINER -->
   <main class="flex-1 max-w-4xl w-full mx-auto p-4 flex flex-col justify-between overflow-hidden">
     
-    <!-- Top Game Quick Category Bar (Clickable Buttons) -->
+    <!-- Category Quick Bar -->
     <div class="flex items-center space-x-2 overflow-x-auto pb-2 mb-2">
-      <button onclick="sendQuickPrompt('Berapa harga diamond Mobile Legends hari ini?')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-xs font-semibold whitespace-nowrap transition">
-        <span>💎 Mobile Legends</span>
+      <button onclick="sendQuickPrompt('Tampilkan buku programming')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-xs font-semibold whitespace-nowrap transition">
+        <span>💻 Programming</span>
       </button>
-      <button onclick="sendQuickPrompt('Berapa harga diamond Free Fire?')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-orange-950 text-orange-300 border border-orange-500/30 text-xs font-semibold whitespace-nowrap transition">
-        <span>🔥 Free Fire</span>
+      <button onclick="sendQuickPrompt('Tampilkan buku bisnis')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-amber-950 text-amber-300 border border-amber-500/30 text-xs font-semibold whitespace-nowrap transition">
+        <span>📈 Bisnis</span>
       </button>
-      <button onclick="sendQuickPrompt('Berapa harga Robux Roblox?')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-red-950 text-red-300 border border-red-500/30 text-xs font-semibold whitespace-nowrap transition">
-        <span>🤖 Roblox Robux</span>
+      <button onclick="sendQuickPrompt('Tampilkan buku AI dan machine learning')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-violet-950 text-violet-300 border border-violet-500/30 text-xs font-semibold whitespace-nowrap transition">
+        <span>🤖 AI & ML</span>
       </button>
-      <button onclick="sendQuickPrompt('Berapa estimasi biaya joki dari Epic ke Mythic?')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-purple-950 text-purple-300 border border-purple-500/30 text-xs font-semibold whitespace-nowrap transition">
-        <span>🏆 Joki MLBB</span>
+      <button onclick="sendQuickPrompt('Tampilkan buku pengembangan diri')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-semibold whitespace-nowrap transition">
+        <span>🌱 Self Development</span>
       </button>
-      <button onclick="sendQuickPrompt('Carikan akun Mobile Legends sultan yang dijual')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-semibold whitespace-nowrap transition">
-        <span>🛡️ Jual Beli Akun</span>
+      <button onclick="sendQuickPrompt('Tampilkan buku promo')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-rose-950 text-rose-300 border border-rose-500/30 text-xs font-semibold whitespace-nowrap transition">
+        <span>🔥 Promo</span>
       </button>
     </div>
 
@@ -126,7 +126,7 @@
     <div class="flex items-center justify-between px-4 py-2 rounded-xl bg-slate-900/60 border border-slate-800 mb-3 text-xs text-slate-400">
       <div class="flex items-center space-x-2">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>RAPS-BOT Online (Gemini Key Pool) &bull; Latency: <strong class="text-cyan-300" id="latency-text">12ms</strong></span>
+        <span>LibraBot Online (Gemini Key Pool) &bull; Latency: <strong class="text-cyan-300" id="latency-text">12ms</strong></span>
       </div>
       <div class="flex items-center space-x-2 font-code text-[11px]">
         <span>Session:</span>
@@ -140,28 +140,28 @@
       <!-- Welcome Message from Bot with Interactive Buttons -->
       <div class="flex items-start space-x-3">
         <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center flex-shrink-0 text-sm">
-          🤖
+          📚
         </div>
         <div class="chat-bubble-bot p-4 rounded-2xl rounded-tl-none max-w-xl shadow-lg prose-custom text-sm">
-          <p class="font-bold text-cyan-300 mb-1">Halo Juragan! Selamat datang di AgnoCommerce ID 🎮</p>
-          <p>Saya asisten AI resmi AgnoCommerce. Silakan klik menu opsi cepat di bawah atau ketik langsung kebutuhanmu:</p>
+          <p class="font-bold text-cyan-300 mb-1">Halo Sobat Buku! Selamat datang di Libra Books 📚</p>
+          <p>Saya LibraBot, asisten AI toko buku digitalmu. Mau cari buku apa hari ini?</p>
           
           <div class="my-3 flex flex-wrap gap-1.5">
-            <button onclick="sendQuickPrompt('Berapa harga 86 diamond Mobile Legends hari ini?')" class="action-btn">
-              💎 Cek 86 Diamond ML (Promo)
+            <button onclick="sendQuickPrompt('Rekomendasikan buku Python budget 100rb')" class="action-btn">
+              💡 Rekomendasi Buku Python
             </button>
-            <button onclick="sendQuickPrompt('Saya mau beli Weekly Diamond Pass ML')" class="action-btn">
-              🎫 Beli Weekly Diamond Pass
+            <button onclick="sendQuickPrompt('Tampilkan buku promo hari ini')" class="action-btn">
+              🔥 Lihat Promo Hari Ini
             </button>
-            <button onclick="sendQuickPrompt('Tolong cek status invoice INV-9921')" class="action-btn">
-              🧾 Cek Invoice INV-9921
+            <button onclick="sendQuickPrompt('Cek status pesanan INV-0001')" class="action-btn">
+              🧾 Cek Status Pesanan
             </button>
-            <button onclick="sendQuickPrompt('Berapa biaya joki dari Epic ke Mythic?')" class="action-btn">
-              🏆 Hitung Biaya Joki ML
+            <button onclick="sendQuickPrompt('Saya mau beli buku The Psychology of Money')" class="action-btn">
+              📖 Beli Buku Favorit
             </button>
           </div>
 
-          <p class="text-xs text-slate-400">Kamu juga bisa langsung ketik: <em>"Beli 86 diamond ML ID 88392019 Zone 2102 bayar QRIS"</em></p>
+          <p class="text-xs text-slate-400">Kamu juga bisa langsung ketik: <em>"Carikan buku bisnis budget 100rb"</em></p>
         </div>
       </div>
 
@@ -172,7 +172,7 @@
       <input
         type="text"
         id="user-input"
-        placeholder="Ketik pesanan atau pertanyaanmu... (Contoh: Beli 86 diamond ML ID 12345 Zone 2026)"
+        placeholder="Cari buku, minta rekomendasi, atau ketik judul... (Contoh: Buku bisnis budget 100rb)"
         class="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none"
         onkeydown="if(event.key === 'Enter') handleSend()"
       />
@@ -293,7 +293,7 @@
         <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center flex-shrink-0 text-sm">🤖</div>
         <div class="chat-bubble-bot p-3 rounded-2xl rounded-tl-none text-xs text-cyan-300 flex items-center space-x-2">
           <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          <span>RAPS-BOT sedang memproses pesanan...</span>
+          <span>LibraBot sedang mencari buku...</span>
         </div>
       `;
       chatContainer.appendChild(loadingDiv);
@@ -319,7 +319,7 @@
         if (ind) ind.remove();
 
         if (res.status === 429) {
-          appendMessage('bot', '⚠️ **Rate Limit:** Terlalu banyak pesan dalam waktu singkat. Mohon santai dulu sejenak ya Juragan!');
+          appendMessage('bot', '⚠️ **Rate Limit:** Terlalu banyak pesan dalam waktu singkat. Mohon tunggu sebentar ya!');
           return;
         }
 
