@@ -72,12 +72,92 @@
       transform: translateY(0);
     }
   </style>
+
+  <script>
+    let currentLang = 'en';
+    const dict = {
+      en: {
+        subtitle: "Digital Bookstore — Find your dream books easily",
+        slideBtn: "📊 Presentation Slides",
+        apiBtn: "📖 Swagger API",
+        btnProg: "💻 Programming",
+        btnBiz: "📈 Business",
+        btnAi: "🤖 AI & ML",
+        btnSelf: "🌱 Self Development",
+        btnPromo: "🔥 Promo",
+        botOnline: "LibraBot Online",
+        welcome1: "Hello Bookworm! Welcome to Libra Books 📚",
+        welcome2: "I am LibraBot, your digital bookstore AI assistant. What book are you looking for today?",
+        q1: "<span id="ui-q1">💡 Python Books</span>",
+        q2: "<span id="ui-q2">🔥 View Promos</span>",
+        q3: "<span id="ui-q3">🧾 Check Order Status</span>",
+        q4: "<span id="ui-q4">📖 Buy Favorite Book</span>",
+        hint: 'You can also directly type: <em>"Find business books under 100k"</em>',
+        placeholder: "Search books, ask for recommendations... (e.g., Business books under 100k)",
+        sending: "${dict[currentLang].sending}",
+        rateLimit: "⚠️ **Rate Limit:** ${dict[currentLang].rateLimit}"
+      },
+      id: {
+        subtitle: "Toko Buku Digital — Temukan buku impianmu dengan mudah",
+        slideBtn: "📊 Slide Presentasi",
+        apiBtn: "📖 Swagger API",
+        btnProg: "💻 Pemrograman",
+        btnBiz: "📈 Bisnis",
+        btnAi: "🤖 AI & ML",
+        btnSelf: "🌱 Pengembangan Diri",
+        btnPromo: "🔥 Promo",
+        botOnline: "LibraBot Aktif",
+        welcome1: "Halo Sobat Buku! Selamat datang di Libra Books 📚",
+        welcome2: "Saya LibraBot, asisten AI toko buku digitalmu. Mau cari buku apa hari ini?",
+        q1: "💡 Rekomendasi Buku Python",
+        q2: "🔥 Lihat Promo Hari Ini",
+        q3: "🧾 Cek Status Pesanan",
+        q4: "📖 Beli Buku Favorit",
+        hint: 'Kamu juga bisa langsung ketik: <em>"Carikan buku bisnis budget 100rb"</em>',
+        placeholder: "Cari buku, minta rekomendasi, atau ketik judul...",
+        sending: "LibraBot sedang mencari buku...",
+        rateLimit: "⚠️ **Limit:** Terlalu banyak pesan. Mohon tunggu sebentar ya!"
+      }
+    };
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.getElementById('lang-en').className = lang === 'en' ? 'px-2 py-1 rounded-md bg-cyan-600 text-white transition' : 'px-2 py-1 rounded-md text-slate-400 hover:text-white transition';
+      document.getElementById('lang-id').className = lang === 'id' ? 'px-2 py-1 rounded-md bg-cyan-600 text-white transition' : 'px-2 py-1 rounded-md text-slate-400 hover:text-white transition';
+      
+      // Update UI elements
+      document.getElementById('ui-subtitle').innerText = dict[lang].subtitle;
+      document.getElementById('ui-slide').innerHTML = dict[lang].slideBtn;
+      document.getElementById('ui-api').innerHTML = dict[lang].apiBtn;
+      document.getElementById('ui-btn-prog').innerHTML = dict[lang].btnProg;
+      document.getElementById('ui-btn-biz').innerHTML = dict[lang].btnBiz;
+      document.getElementById('ui-btn-ai').innerHTML = dict[lang].btnAi;
+      document.getElementById('ui-btn-self').innerHTML = dict[lang].btnSelf;
+      document.getElementById('ui-btn-promo').innerHTML = dict[lang].btnPromo;
+      document.getElementById('ui-bot-online').innerHTML = dict[lang].botOnline;
+      document.getElementById('ui-welcome1').innerHTML = dict[lang].welcome1;
+      document.getElementById('ui-welcome2').innerHTML = dict[lang].welcome2;
+      document.getElementById('ui-q1').innerHTML = dict[lang].q1;
+      document.getElementById('ui-q2').innerHTML = dict[lang].q2;
+      document.getElementById('ui-q3').innerHTML = dict[lang].q3;
+      document.getElementById('ui-q4').innerHTML = dict[lang].q4;
+      document.getElementById('ui-hint').innerHTML = dict[lang].hint;
+      document.getElementById('user-input').placeholder = dict[lang].placeholder;
+    }
+  </script>
 </head>
+
 <body class="min-h-screen flex flex-col bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#071a3d] via-[#040e21] to-black">
 
   <!-- HEADER -->
   <header class="w-full px-6 py-4 glass-panel border-b border-cyan-900/40 flex items-center justify-between sticky top-0 z-50">
+    
     <div class="flex items-center space-x-3">
+      <div class="bg-slate-900 rounded-lg p-1 border border-slate-700 flex text-xs font-bold">
+        <button id="lang-en" onclick="setLang('en')" class="px-2 py-1 rounded-md bg-cyan-600 text-white transition">EN</button>
+        <button id="lang-id" onclick="setLang('id')" class="px-2 py-1 rounded-md text-slate-400 hover:text-white transition">ID</button>
+      </div>
+
       <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center font-oxanium font-extrabold text-black text-xl shadow-lg shadow-cyan-500/20">
         LB
       </div>
@@ -86,7 +166,7 @@
           <h1 class="font-oxanium text-lg font-bold text-white tracking-wide">Libra Books</h1>
           <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">AGENTIC AI</span>
         </div>
-        <p class="text-xs text-slate-400">Digital Bookstore — Find your dream books easily</p>
+        <p id="ui-subtitle" class="text-xs text-slate-400">Digital Bookstore — Find your dream books easily</p>
       </div>
     </div>
 
@@ -106,19 +186,19 @@
     <!-- Category Quick Bar -->
     <div class="flex items-center space-x-2 overflow-x-auto pb-2 mb-2">
       <button onclick="sendQuickPrompt('Show programming books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-xs font-semibold whitespace-nowrap transition">
-        <span>💻 Programming</span>
+        <span id="ui-btn-prog">💻 Programming</span>
       </button>
       <button onclick="sendQuickPrompt('Show business books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-amber-950 text-amber-300 border border-amber-500/30 text-xs font-semibold whitespace-nowrap transition">
         <span>📈 Bisnis</span>
       </button>
       <button onclick="sendQuickPrompt('Show AI and machine learning books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-violet-950 text-violet-300 border border-violet-500/30 text-xs font-semibold whitespace-nowrap transition">
-        <span>🤖 AI & ML</span>
+        <span id="ui-btn-ai">🤖 AI & ML</span>
       </button>
       <button onclick="sendQuickPrompt('Show self-development books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-semibold whitespace-nowrap transition">
-        <span>🌱 Self Development</span>
+        <span id="ui-btn-self">🌱 Self Development</span>
       </button>
       <button onclick="sendQuickPrompt('Show promo books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-rose-950 text-rose-300 border border-rose-500/30 text-xs font-semibold whitespace-nowrap transition">
-        <span>🔥 Promo</span>
+        <span id="ui-btn-promo">🔥 Promo</span>
       </button>
     </div>
 
@@ -126,7 +206,7 @@
     <div class="flex items-center justify-between px-4 py-2 rounded-xl bg-slate-900/60 border border-slate-800 mb-3 text-xs text-slate-400">
       <div class="flex items-center space-x-2">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>LibraBot Online (Gemini Key Pool) &bull; Latency: <strong class="text-cyan-300" id="latency-text">12ms</strong></span>
+        <span id="ui-bot-online">LibraBot Online</span><span> (Gemini Key Pool) &bull; Latency: <strong class="text-cyan-300" id="latency-text">12ms</strong></span>
       </div>
       <div class="flex items-center space-x-2 font-code text-[11px]">
         <span>Session:</span>
@@ -143,25 +223,25 @@
           📚
         </div>
         <div class="chat-bubble-bot p-4 rounded-2xl rounded-tl-none max-w-xl shadow-lg prose-custom text-sm">
-          <p class="font-bold text-cyan-300 mb-1">Hello Bookworm! Welcome to Libra Books 📚</p>
-          <p>I am LibraBot, your digital bookstore AI assistant. What book are you looking for today?</p>
+          <p id="ui-welcome1" class="font-bold text-cyan-300 mb-1">Hello Bookworm! Welcome to Libra Books 📚</p>
+          <p id="ui-welcome2">I am LibraBot, your digital bookstore AI assistant. What book are you looking for today?</p>
           
           <div class="my-3 flex flex-wrap gap-1.5">
             <button onclick="sendQuickPrompt('Rekomendasikan buku Python budget 100rb')" class="action-btn">
-              💡 Python Books
+              <span id="ui-q1">💡 Python Books</span>
             </button>
             <button onclick="sendQuickPrompt('Show promo books hari ini')" class="action-btn">
-              🔥 View Promos
+              <span id="ui-q2">🔥 View Promos</span>
             </button>
             <button onclick="sendQuickPrompt('Check order status INV-0001')" class="action-btn">
-              🧾 Check Order Status
+              <span id="ui-q3">🧾 Check Order Status</span>
             </button>
             <button onclick="sendQuickPrompt('I want to buy The Psychology of Money')" class="action-btn">
-              📖 Buy Favorite Book
+              <span id="ui-q4">📖 Buy Favorite Book</span>
             </button>
           </div>
 
-          <p class="text-xs text-slate-400">You can also directly type: <em>"Find business books under 100k"</em></p>
+          <p id="ui-hint" class="text-xs text-slate-400">You can also directly type: <em>"Find business books under 100k"</em></p>
         </div>
       </div>
 
@@ -293,7 +373,7 @@
         <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center flex-shrink-0 text-sm">🤖</div>
         <div class="chat-bubble-bot p-3 rounded-2xl rounded-tl-none text-xs text-cyan-300 flex items-center space-x-2">
           <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          <span>LibraBot is searching...</span>
+          <span>${dict[currentLang].sending}</span>
         </div>
       `;
       chatContainer.appendChild(loadingDiv);
@@ -319,7 +399,7 @@
         if (ind) ind.remove();
 
         if (res.status === 429) {
-          appendMessage('bot', '⚠️ **Rate Limit:** Too many messages in a short time. Please wait a moment!');
+          appendMessage('bot', '⚠️ **Rate Limit:** ${dict[currentLang].rateLimit}');
           return;
         }
 

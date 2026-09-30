@@ -99,7 +99,8 @@ def create_commerce_agent(
     provider: str = "gemini",
     api_key: Optional[str] = None,
     tools=ALL_COMMERCE_TOOLS,
-    system_prompt: str = LIBRABOT_SYSTEM_PROMPT
+    system_prompt: str = LIBRABOT_SYSTEM_PROMPT,
+    language: str = "en"
 ) -> Agent:
     provider = provider.lower()
     
@@ -120,19 +121,19 @@ def create_commerce_agent(
         model=model,
         session_id=session_id,
         tools=tools,
-        instructions=[system_prompt],
+        instructions=[system_prompt, f"IMPORTANT: You MUST respond in {'Indonesian' if language == 'id' else 'English'} language."],
         show_tool_calls=True,
         markdown=True
     )
 
-def run_agent_with_failover(message: str, session_id: str, max_retries: int = 5) -> Any:
+def run_agent_with_failover(message: str, session_id: str, max_retries: int = 5, language: str = "en") -> Any:
     provider = os.getenv("AI_PROVIDER", "gemini").lower()
     last_error = None
     
     for attempt in range(max_retries):
         try:
             key = GeminiKeyPool.get_next_key() if provider == "gemini" else None
-            agent = create_commerce_agent(session_id=session_id, provider=provider, api_key=key)
+            agent = create_commerce_agent(session_id=session_id, provider=provider, api_key=key, language=language)
             return agent.run(message, stream=False)
         except Exception as e:
             last_error = e
@@ -145,7 +146,7 @@ def run_agent_with_failover(message: str, session_id: str, max_retries: int = 5)
                 
     fallback_provider = "openrouter" if provider == "gemini" else "gemini"
     try:
-        agent = create_commerce_agent(session_id=session_id, provider=fallback_provider)
+        agent = create_commerce_agent(session_id=session_id, provider=fallback_provider, language=language)
         return agent.run(message, stream=False)
     except Exception as fallback_e:
         raise Exception(f"All providers failed. Primary error: {last_error}. Fallback error: {fallback_e}")

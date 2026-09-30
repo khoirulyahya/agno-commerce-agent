@@ -56,7 +56,100 @@
       opacity: 1;
     }
   </style>
+
+  <!-- Floating Lang Toggle -->
+  <div style="position:fixed; top:20px; right:20px; z-index:9999; background:rgba(15,23,42,0.9); padding:5px; border-radius:8px; border:1px solid #334155; display:flex; gap:5px; font-family:sans-serif; font-size:12px;">
+    <button id="s-lang-en" onclick="setSlideLang('en')" style="padding:4px 8px; border-radius:4px; background:#0891b2; color:white; border:none; cursor:pointer;">EN</button>
+    <button id="s-lang-id" onclick="setSlideLang('id')" style="padding:4px 8px; border-radius:4px; background:transparent; color:#94a3b8; border:none; cursor:pointer;">ID</button>
+  </div>
+  <script>
+    let slideLang = 'en';
+    const slideDict = {
+      en: {
+        t1: "<span id='sl-t1'>Masterclass: Agentic Web Integration</span>",
+        t2: "<span id='sl-t2'>What is Agno & Why Not Just Another LLM?</span>",
+        t3: "<span id='sl-t3'>If Ollama / Hermes is the 'brain' generating text, Agno is the 'robot body with hands & nervous system' executing real actions:</span>",
+        t4: "<span id='sl-t4'>querying databases, creating orders, remembering user history, and communicating with web frontends.</span>",
+        t5: "<span id='sl-t5'>Only Answers Text</span>",
+        t6: "<span id='sl-t6'>The estimated book price is...</span>",
+        t7: "<span id='sl-t7'>Multi-Model Gateway</span>",
+        t8: "<span id='sl-t8'>Executes Transactions!</span>",
+        t9: "<span id='sl-t9'>Call Bank API, Generate Payment, Update DB</span>",
+        t10: "<span id='sl-t10'>Simple Restaurant Analogy</span>",
+        t11: "<span id='sl-t11'>Smart chef knowing thousands of recipes but stays in the kitchen.</span>",
+        t12: "<span id='sl-t12'>Waiter taking orders, checking stock, and serving food.</span>",
+        t13: "<span id='sl-t13'>Guestbook remembering table #4 likes avocado juice with no sugar.</span>",
+        t14: "<span id='sl-t14'>Restaurant door where web/mobile guests order anytime.</span>",
+        t15: "<span id='sl-t15'>LibraBot Architecture</span>",
+        t16: "<span id='sl-t16'>Agentic Transaction Flow</span>",
+        t17: "User (Web UI)",
+        t18: "Order book",
+        t19: "Request order",
+        t20: "Fetch Price",
+        t21: "Validate ID",
+        t22: "Create Invoice",
+        t23: "<span id='sl-t23'>4 Key Features of</span>",
+        t24: "<span id='sl-t24'>for Production</span>",
+        t25: "<span id='sl-t25'>Search digital book prices across Programming, Business, AI, and Self Development in real-time.</span>",
+        t26: "<span id='sl-t26'>Book Catalog (Mock DB)</span>",
+        t27: "<span id='sl-t27'>Smart system understanding user intent and matching book SKUs. Handles payments seamlessly.</span>",
+        t28: "<span id='sl-t28'>Order Validation (Guardrail)</span>",
+        t29: "<span id='sl-t29'>Customers simply input their invoice (e.g., INV-0001) to check if the book download link is ready.</span>",
+        t30: "<span id='sl-t30'>Check Invoice Status</span>",
+        t31: "<span id='sl-t31'>Auto Failover System</span>",
+        t32: "<span id='sl-t32'>If API limit reached, system auto-switches to 4 backup keys (Ollama as final fallback).</span>"
+      },
+      id: {
+        t1: "Masterclass: Integrasi Web Agentic",
+        t2: "Apa itu Agno & Kenapa Bukan Sekadar LLM Biasa?",
+        t3: "Kalau Ollama / Hermes adalah 'mesin otak' pembuat teks, maka Agno adalah 'badan robot lengkap dengan tangan & sistem syaraf' yang bisa mengeksekusi aksi nyata:",
+        t4: "cek database, bikin order pembelian, ingat riwayat user, dan ngomong ke frontend web.",
+        t5: "Hanya Menjawab Teks",
+        t6: "Perkiraan harga buku adalah...",
+        t7: "Gerbang Multi-Model",
+        t8: "Eksekusi Transaksi!",
+        t9: "Panggil API Bank, Generate QRIS, Update DB",
+        t10: "Analogi Sederhana di Restoran",
+        t11: "Chef pintar yang tahu ribuan resep tapi diam di dapur.",
+        t12: "Pelayan yang catat pesanan, periksa stok di kasir, dan antar makanan.",
+        t13: "Buku langganan yang ingat meja #4 sukanya jus alpukat tanpa gula.",
+        t14: "Pintu restoran tempat tamu web/HP bisa pesan kapan saja.",
+        t15: "Arsitektur LibraBot",
+        t16: "Flow Transaksi Agentic",
+        t17: "User (Web UI)",
+        t18: "Pesan buku",
+        t19: "Minta order",
+        t20: "Tarik Harga",
+        t21: "Validasi ID",
+        t22: "Buat Invoice",
+        t23: "4 Fitur Utama",
+        t24: "untuk Produksi",
+        t25: "Cari harga buku digital Programming, Bisnis, AI, dan Pengembangan Diri secara real-time.",
+        t26: "Katalog Buku (Mock DB)",
+        t27: "Sistem cerdas memahami niat user dan mencocokkan SKU buku. Mengurus pembayaran dengan mulus.",
+        t28: "Validasi Order (Guardrail)",
+        t29: "Customer cukup masukkan no invoice (cth: INV-0001) untuk cek link download buku.",
+        t30: "Cek Status Invoice",
+        t31: "Sistem Auto Failover",
+        t32: "Jika limit API tercapai, sistem pindah otomatis ke 4 key cadangan (Ollama sebagai fallback terakhir)."
+      }
+    };
+
+    function setSlideLang(lang) {
+      slideLang = lang;
+      document.getElementById('s-lang-en').style.background = lang === 'en' ? '#0891b2' : 'transparent';
+      document.getElementById('s-lang-en').style.color = lang === 'en' ? 'white' : '#94a3b8';
+      document.getElementById('s-lang-id').style.background = lang === 'id' ? '#0891b2' : 'transparent';
+      document.getElementById('s-lang-id').style.color = lang === 'id' ? 'white' : '#94a3b8';
+      
+      for(let i=1; i<=32; i++) {
+        let el = document.getElementById('sl-t'+i);
+        if(el) el.innerHTML = slideDict[lang]['t'+i];
+      }
+    }
+  </script>
 </head>
+
 <body class="min-h-screen flex flex-col justify-between select-none relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-950 via-[#040d1a] to-black">
 
   <!-- TOP BAR / HEADER -->
@@ -69,7 +162,7 @@
         <h1 class="font-oxanium text-lg font-bold tracking-wider text-white flex items-center gap-2">
           AGNO <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">AGENTIC ARCHITECTURE</span>
         </h1>
-        <p class="text-xs text-slate-400">Masterclass: Agentic Web Integration &amp; Libra Books Live Transaction AI</p>
+        <p class="text-xs text-slate-400"><span id='sl-t1'>Masterclass: Agentic Web Integration</span> &amp; Libra Books Live Transaction AI</p>
       </div>
     </div>
 
@@ -110,18 +203,18 @@
           <div class="grid grid-cols-3 gap-4 pt-2">
             <div class="glass-card p-4 rounded-xl border-l-4 border-l-slate-600">
               <span class="text-xs font-code text-slate-400 block mb-1">Plain LLM (Hermes)</span>
-              <p class="text-sm font-semibold text-white">Only Answers Text</p>
-              <p class="text-xs text-slate-400 mt-1">"The estimated book price is..."</p>
+              <p class="text-sm font-semibold text-white"><span id='sl-t5'>Only Answers Text</span></p>
+              <p class="text-xs text-slate-400 mt-1">"<span id='sl-t6'>The estimated book price is...</span>"</p>
             </div>
             <div class="glass-card p-4 rounded-xl border-l-4 border-l-blue-500">
               <span class="text-xs font-code text-blue-400 block mb-1">OpenRouter / 9Router</span>
-              <p class="text-sm font-semibold text-white">Multi-Model Gateway</p>
+              <p class="text-sm font-semibold text-white"><span id='sl-t7'>Multi-Model Gateway</span></p>
               <p class="text-xs text-slate-400 mt-1">1 API Key untuk 200+ Model LLM</p>
             </div>
             <div class="glass-card p-4 rounded-xl border-l-4 border-l-cyan-400 bg-cyan-950/20">
               <span class="text-xs font-code text-cyan-400 block mb-1">AGNO Agent</span>
-              <p class="text-sm font-semibold text-white">Executes Transactions!</p>
-              <p class="text-xs text-slate-400 mt-1">Call Bank API, Generate Payment, Update DB</p>
+              <p class="text-sm font-semibold text-white"><span id='sl-t8'>Executes Transactions!</span></p>
+              <p class="text-xs text-slate-400 mt-1"><span id='sl-t9'>Call Bank API, Generate Payment, Update DB</span></p>
             </div>
           </div>
         </div>
@@ -130,20 +223,20 @@
           <div class="glass-card p-6 rounded-2xl neon-border relative overflow-hidden">
             <div class="absolute -right-8 -top-8 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
             <h3 class="font-oxanium text-lg font-bold text-white mb-4 flex items-center gap-2">
-              🤖 Simple Restaurant Analogy
+              🤖 <span id='sl-t10'>Simple Restaurant Analogy</span>
             </h3>
             <div class="space-y-3 text-sm">
               <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span class="text-cyan-400 font-bold">🧠 LLM (Brain):</span> Smart chef knowing thousands of recipes but stays in the kitchen.
+                <span class="text-cyan-400 font-bold">🧠 LLM (Brain):</span> <span id='sl-t11'>Smart chef knowing thousands of recipes but stays in the kitchen.</span>
               </div>
               <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span class="text-blue-400 font-bold">🦾 Agno Tools (Hands):</span> Waiter taking orders, checking stock, and serving food.
+                <span class="text-blue-400 font-bold">🦾 Agno Tools (Hands):</span> <span id='sl-t12'>Waiter taking orders, checking stock, and serving food.</span>
               </div>
               <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span class="text-emerald-400 font-bold">💾 Agno Storage (Memory):</span> Guestbook remembering table #4 likes avocado juice with no sugar.
+                <span class="text-emerald-400 font-bold">💾 Agno Storage (Memory):</span> <span id='sl-t13'>Guestbook remembering table #4 likes avocado juice with no sugar.</span>
               </div>
               <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span class="text-purple-400 font-bold">🌐 FastAPI (Bridge):</span> Restaurant door where web/mobile guests order anytime.
+                <span class="text-purple-400 font-bold">🌐 FastAPI (Bridge):</span> <span id='sl-t14'>Restaurant door where web/mobile guests order anytime.</span>
               </div>
             </div>
           </div>
@@ -410,7 +503,7 @@ agent.print_response(<span class="text-emerald-300">"I want to buy Clean Code, m
             Live Showcase
           </div>
           <h2 class="font-oxanium text-3xl font-extrabold text-white mt-2">
-            4 Key Features of <span class="gradient-text">LibraBot AI</span> for Production
+            <span id='sl-t23'>4 Key Features of</span> <span class="gradient-text">LibraBot AI</span> <span id='sl-t24'>for Production</span>
           </h2>
           <p class="text-slate-300 text-sm">Fitur yang membuat klien kamu yakin untuk membeli dan pakai bot ini.</p>
         </div>
@@ -420,7 +513,7 @@ agent.print_response(<span class="text-emerald-300">"I want to buy Clean Code, m
             <div class="text-2xl">💎</div>
             <div>
               <h4 class="font-bold text-white text-sm">1. Smart Catalog &amp; Promo Finder</h4>
-              <p class="text-xs text-slate-400 mt-1">Search digital book prices across Programming, Business, AI, and Self Development in real-time.</p>
+              <p class="text-xs text-slate-400 mt-1"><span id='sl-t25'>Search digital book prices across Programming, Business, AI, and Self Development in real-time.</span></p>
             </div>
           </div>
 
@@ -436,7 +529,7 @@ agent.print_response(<span class="text-emerald-300">"I want to buy Clean Code, m
             <div class="text-2xl">🛡️</div>
             <div>
               <h4 class="font-bold text-white text-sm">3. Order Status Tracking (Cek Resi)</h4>
-              <p class="text-xs text-slate-400 mt-1">Customers simply input their invoice (e.g., INV-0001) to check if the book download link is ready.</p>
+              <p class="text-xs text-slate-400 mt-1"><span id='sl-t29'>Customers simply input their invoice (e.g., INV-0001) to check if the book download link is ready.</span></p>
             </div>
           </div>
 
