@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -39,13 +39,11 @@
     .chat-bubble-user {
       background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
     }
-    /* Markdown Styles in Chat */
     .prose-custom p { margin-bottom: 0.5rem; }
     .prose-custom ul { list-style-type: disc; margin-left: 1.25rem; margin-bottom: 0.5rem; }
     .prose-custom strong { color: #38bdf8; font-weight: 600; }
     .prose-custom code { background: rgba(0,0,0,0.4); padding: 0.1rem 0.3rem; border-radius: 0.25rem; font-family: monospace; color: #a5f3fc; }
     
-    /* Interactive Action Button Style */
     .action-btn {
       display: inline-flex;
       align-items: center;
@@ -72,90 +70,17 @@
       transform: translateY(0);
     }
   </style>
-
-  <script>
-    let currentLang = 'en';
-    const dict = {
-      en: {
-        subtitle: "Digital Bookstore — Find your dream books easily",
-        slideBtn: "📊 Presentation Slides",
-        apiBtn: "📖 Swagger API",
-        btnProg: "💻 Programming",
-        btnBiz: "📈 Business",
-        btnAi: "🤖 AI & ML",
-        btnSelf: "🌱 Self Development",
-        btnPromo: "🔥 Promo",
-        botOnline: "LibraBot Online",
-        welcome1: "Hello Bookworm! Welcome to Libra Books 📚",
-        welcome2: "I am LibraBot, your digital bookstore AI assistant. What book are you looking for today?",
-        q1: "<span id="ui-q1">💡 Python Books</span>",
-        q2: "<span id="ui-q2">🔥 View Promos</span>",
-        q3: "<span id="ui-q3">🧾 Check Order Status</span>",
-        q4: "<span id="ui-q4">📖 Buy Favorite Book</span>",
-        hint: 'You can also directly type: <em>"Find business books under 100k"</em>',
-        placeholder: "Search books, ask for recommendations... (e.g., Business books under 100k)",
-        sending: "${dict[currentLang].sending}",
-        rateLimit: "⚠️ **Rate Limit:** ${dict[currentLang].rateLimit}"
-      },
-      id: {
-        subtitle: "Toko Buku Digital — Temukan buku impianmu dengan mudah",
-        slideBtn: "📊 Slide Presentasi",
-        apiBtn: "📖 Swagger API",
-        btnProg: "💻 Pemrograman",
-        btnBiz: "📈 Bisnis",
-        btnAi: "🤖 AI & ML",
-        btnSelf: "🌱 Pengembangan Diri",
-        btnPromo: "🔥 Promo",
-        botOnline: "LibraBot Aktif",
-        welcome1: "Halo Sobat Buku! Selamat datang di Libra Books 📚",
-        welcome2: "Saya LibraBot, asisten AI toko buku digitalmu. Mau cari buku apa hari ini?",
-        q1: "💡 Rekomendasi Buku Python",
-        q2: "🔥 Lihat Promo Hari Ini",
-        q3: "🧾 Cek Status Pesanan",
-        q4: "📖 Beli Buku Favorit",
-        hint: 'Kamu juga bisa langsung ketik: <em>"Carikan buku bisnis budget 100rb"</em>',
-        placeholder: "Cari buku, minta rekomendasi, atau ketik judul...",
-        sending: "LibraBot sedang mencari buku...",
-        rateLimit: "⚠️ **Limit:** Terlalu banyak pesan. Mohon tunggu sebentar ya!"
-      }
-    };
-
-    function setLang(lang) {
-      currentLang = lang;
-      document.getElementById('lang-en').className = lang === 'en' ? 'px-2 py-1 rounded-md bg-cyan-600 text-white transition' : 'px-2 py-1 rounded-md text-slate-400 hover:text-white transition';
-      document.getElementById('lang-id').className = lang === 'id' ? 'px-2 py-1 rounded-md bg-cyan-600 text-white transition' : 'px-2 py-1 rounded-md text-slate-400 hover:text-white transition';
-      
-      // Update UI elements
-      document.getElementById('ui-subtitle').innerText = dict[lang].subtitle;
-      document.getElementById('ui-slide').innerHTML = dict[lang].slideBtn;
-      document.getElementById('ui-api').innerHTML = dict[lang].apiBtn;
-      document.getElementById('ui-btn-prog').innerHTML = dict[lang].btnProg;
-      document.getElementById('ui-btn-biz').innerHTML = dict[lang].btnBiz;
-      document.getElementById('ui-btn-ai').innerHTML = dict[lang].btnAi;
-      document.getElementById('ui-btn-self').innerHTML = dict[lang].btnSelf;
-      document.getElementById('ui-btn-promo').innerHTML = dict[lang].btnPromo;
-      document.getElementById('ui-bot-online').innerHTML = dict[lang].botOnline;
-      document.getElementById('ui-welcome1').innerHTML = dict[lang].welcome1;
-      document.getElementById('ui-welcome2').innerHTML = dict[lang].welcome2;
-      document.getElementById('ui-q1').innerHTML = dict[lang].q1;
-      document.getElementById('ui-q2').innerHTML = dict[lang].q2;
-      document.getElementById('ui-q3').innerHTML = dict[lang].q3;
-      document.getElementById('ui-q4').innerHTML = dict[lang].q4;
-      document.getElementById('ui-hint').innerHTML = dict[lang].hint;
-      document.getElementById('user-input').placeholder = dict[lang].placeholder;
-    }
-  </script>
 </head>
 
 <body class="min-h-screen flex flex-col bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#071a3d] via-[#040e21] to-black">
 
   <!-- HEADER -->
   <header class="w-full px-6 py-4 glass-panel border-b border-cyan-900/40 flex items-center justify-between sticky top-0 z-50">
-    
     <div class="flex items-center space-x-3">
-      <div class="bg-slate-900 rounded-lg p-1 border border-slate-700 flex text-xs font-bold">
-        <button id="lang-en" onclick="setLang('en')" class="px-2 py-1 rounded-md bg-cyan-600 text-white transition">EN</button>
-        <button id="lang-id" onclick="setLang('id')" class="px-2 py-1 rounded-md text-slate-400 hover:text-white transition">ID</button>
+      <!-- Language Switcher Toggle -->
+      <div class="bg-slate-900/90 rounded-lg p-1 border border-cyan-500/30 flex text-xs font-bold mr-1">
+        <button id="lang-en" onclick="setLang('en')" class="px-2.5 py-1 rounded-md bg-cyan-600 text-white transition shadow">EN</button>
+        <button id="lang-id" onclick="setLang('id')" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition">ID</button>
       </div>
 
       <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center font-oxanium font-extrabold text-black text-xl shadow-lg shadow-cyan-500/20">
@@ -172,10 +97,10 @@
 
     <div class="flex items-center space-x-3">
       <a href="/slides" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-950/70 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-500/40 text-xs font-semibold flex items-center gap-1.5 transition">
-        <span>📊 Presentation Slides</span>
+        <span id="ui-slide">📊 Presentation Slides</span>
       </a>
       <a href="/docs" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-600 text-xs font-semibold flex items-center gap-1.5 transition">
-        <span>📖 Swagger API</span>
+        <span id="ui-api">📖 Swagger API</span>
       </a>
     </div>
   </header>
@@ -185,19 +110,19 @@
     
     <!-- Category Quick Bar -->
     <div class="flex items-center space-x-2 overflow-x-auto pb-2 mb-2">
-      <button onclick="sendQuickPrompt('Show programming books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-xs font-semibold whitespace-nowrap transition">
+      <button onclick="sendCategoryPrompt('programming')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-xs font-semibold whitespace-nowrap transition">
         <span id="ui-btn-prog">💻 Programming</span>
       </button>
-      <button onclick="sendQuickPrompt('Show business books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-amber-950 text-amber-300 border border-amber-500/30 text-xs font-semibold whitespace-nowrap transition">
-        <span>📈 Bisnis</span>
+      <button onclick="sendCategoryPrompt('business')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-amber-950 text-amber-300 border border-amber-500/30 text-xs font-semibold whitespace-nowrap transition">
+        <span id="ui-btn-biz">📈 Business</span>
       </button>
-      <button onclick="sendQuickPrompt('Show AI and machine learning books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-violet-950 text-violet-300 border border-violet-500/30 text-xs font-semibold whitespace-nowrap transition">
+      <button onclick="sendCategoryPrompt('ai_ml')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-violet-950 text-violet-300 border border-violet-500/30 text-xs font-semibold whitespace-nowrap transition">
         <span id="ui-btn-ai">🤖 AI & ML</span>
       </button>
-      <button onclick="sendQuickPrompt('Show self-development books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-semibold whitespace-nowrap transition">
+      <button onclick="sendCategoryPrompt('self_dev')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-semibold whitespace-nowrap transition">
         <span id="ui-btn-self">🌱 Self Development</span>
       </button>
-      <button onclick="sendQuickPrompt('Show promo books')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-rose-950 text-rose-300 border border-rose-500/30 text-xs font-semibold whitespace-nowrap transition">
+      <button onclick="sendCategoryPrompt('promo')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-rose-950 text-rose-300 border border-rose-500/30 text-xs font-semibold whitespace-nowrap transition">
         <span id="ui-btn-promo">🔥 Promo</span>
       </button>
     </div>
@@ -206,10 +131,10 @@
     <div class="flex items-center justify-between px-4 py-2 rounded-xl bg-slate-900/60 border border-slate-800 mb-3 text-xs text-slate-400">
       <div class="flex items-center space-x-2">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span id="ui-bot-online">LibraBot Online</span><span> (Gemini Key Pool) &bull; Latency: <strong class="text-cyan-300" id="latency-text">12ms</strong></span>
+        <span><strong id="ui-bot-status" class="text-slate-300 font-normal">LibraBot Online (Gemini Pool)</strong> &bull; Latency: <strong class="text-cyan-300" id="latency-text">12ms</strong></span>
       </div>
       <div class="flex items-center space-x-2 font-code text-[11px]">
-        <span>Session:</span>
+        <span id="ui-session-label">Session:</span>
         <span id="session-display" class="text-cyan-400">anon-session</span>
       </div>
     </div>
@@ -227,17 +152,17 @@
           <p id="ui-welcome2">I am LibraBot, your digital bookstore AI assistant. What book are you looking for today?</p>
           
           <div class="my-3 flex flex-wrap gap-1.5">
-            <button onclick="sendQuickPrompt('Rekomendasikan buku Python budget 100rb')" class="action-btn">
+            <button onclick="triggerQuickAction('q1')" class="action-btn">
               <span id="ui-q1">💡 Python Books</span>
             </button>
-            <button onclick="sendQuickPrompt('Show promo books hari ini')" class="action-btn">
+            <button onclick="triggerQuickAction('q2')" class="action-btn">
               <span id="ui-q2">🔥 View Promos</span>
             </button>
-            <button onclick="sendQuickPrompt('Check order status INV-0001')" class="action-btn">
+            <button onclick="triggerQuickAction('q3')" class="action-btn">
               <span id="ui-q3">🧾 Check Order Status</span>
             </button>
-            <button onclick="sendQuickPrompt('I want to buy The Psychology of Money')" class="action-btn">
-              <span id="ui-q4">📖 Buy Favorite Book</span>
+            <button onclick="triggerQuickAction('q4')" class="action-btn">
+              <span id="ui-q4">📖 Buy Clean Code</span>
             </button>
           </div>
 
@@ -261,7 +186,7 @@
         id="btn-send"
         class="px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-oxanium font-bold text-sm tracking-wider shadow-lg shadow-cyan-500/30 transition flex items-center gap-2"
       >
-        <span>SEND</span>
+        <span id="ui-send-label">SEND</span>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
       </button>
     </div>
@@ -269,11 +194,130 @@
   </main>
 
   <script>
-    // 1. ANONYMOUS SESSION MANAGEMENT
-    let sessionId = localStorage.getItem('rp_agent_session_id');
+    // 1. LANGUAGE DICTIONARY & SWITCHER
+    let currentLang = 'en';
+    const dict = {
+      en: {
+        subtitle: "Digital Bookstore — Find your dream books easily",
+        slideBtn: "📊 Presentation Slides",
+        apiBtn: "📖 Swagger API",
+        btnProg: "💻 Programming",
+        btnBiz: "📈 Business",
+        btnAi: "🤖 AI & ML",
+        btnSelf: "🌱 Self Development",
+        btnPromo: "🔥 Promo",
+        botStatus: "LibraBot Online (Gemini Pool)",
+        sessionLabel: "Session:",
+        welcome1: "Hello Bookworm! Welcome to Libra Books 📚",
+        welcome2: "I am LibraBot, your digital bookstore AI assistant. What book are you looking for today?",
+        q1: "💡 Python Books",
+        q2: "🔥 View Promos",
+        q3: "🧾 Check Order Status",
+        q4: "📖 Buy Clean Code",
+        hint: 'You can also directly type: <em>"Find business books under 100k"</em>',
+        placeholder: "Search books, ask for recommendations... (e.g., Business books under 100k)",
+        sendLabel: "SEND",
+        sending: "LibraBot is searching...",
+        rateLimit: "Too many messages in a short time. Please wait a moment!",
+        quickPrompts: {
+          programming: "Show programming books",
+          business: "Show business and entrepreneurship books",
+          ai_ml: "Show AI and machine learning books",
+          self_dev: "Show self development books",
+          promo: "Show all books on promo",
+          q1: "Recommend books to learn Python with a budget under 100k",
+          q2: "Show all promo books available today",
+          q3: "Check status of order INV-0001",
+          q4: "I want to buy the Clean Code book"
+        }
+      },
+      id: {
+        subtitle: "Toko Buku Digital — Temukan buku impianmu dengan mudah",
+        slideBtn: "📊 Slide Presentasi",
+        apiBtn: "📖 Swagger API",
+        btnProg: "💻 Pemrograman",
+        btnBiz: "📈 Bisnis",
+        btnAi: "🤖 AI & ML",
+        btnSelf: "🌱 Pengembangan Diri",
+        btnPromo: "🔥 Promo",
+        botStatus: "LibraBot Online (Pool Gemini)",
+        sessionLabel: "Sesi:",
+        welcome1: "Halo Sobat Buku! Selamat datang di Libra Books 📚",
+        welcome2: "Saya LibraBot, asisten AI toko buku digitalmu. Mau cari buku apa hari ini?",
+        q1: "💡 Rekomendasi Buku Python",
+        q2: "🔥 Lihat Promo Hari Ini",
+        q3: "🧾 Cek Status Pesanan",
+        q4: "📖 Beli Clean Code",
+        hint: 'Kamu juga bisa langsung ketik: <em>"Carikan buku bisnis budget 100rb"</em>',
+        placeholder: "Cari buku, minta rekomendasi, atau ketik judul... (Contoh: Buku bisnis budget 100rb)",
+        sendLabel: "KIRIM",
+        sending: "LibraBot sedang mencari buku...",
+        rateLimit: "Terlalu banyak pesan dalam waktu singkat. Mohon tunggu sebentar ya!",
+        quickPrompts: {
+          programming: "Tampilkan buku kategori programming",
+          business: "Tampilkan buku kategori bisnis dan entrepreneurship",
+          ai_ml: "Tampilkan buku AI dan machine learning",
+          self_dev: "Tampilkan buku pengembangan diri",
+          promo: "Tampilkan semua buku yang sedang promo",
+          q1: "Rekomendasikan buku untuk belajar Python dengan budget di bawah 100rb",
+          q2: "Tampilkan semua buku promo hari ini",
+          q3: "Cek status pesanan invoice INV-0001",
+          q4: "Saya mau beli buku Clean Code"
+        }
+      }
+    };
+
+    function setLang(lang) {
+      currentLang = lang;
+      
+      // Update toggle button styles
+      const btnEn = document.getElementById('lang-en');
+      const btnId = document.getElementById('lang-id');
+      if (lang === 'en') {
+        btnEn.className = 'px-2.5 py-1 rounded-md bg-cyan-600 text-white transition shadow';
+        btnId.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition';
+      } else {
+        btnId.className = 'px-2.5 py-1 rounded-md bg-cyan-600 text-white transition shadow';
+        btnEn.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition';
+      }
+
+      // Update static UI strings safely
+      document.getElementById('ui-subtitle').innerText = dict[lang].subtitle;
+      document.getElementById('ui-slide').innerText = dict[lang].slideBtn;
+      document.getElementById('ui-api').innerText = dict[lang].apiBtn;
+      document.getElementById('ui-btn-prog').innerText = dict[lang].btnProg;
+      document.getElementById('ui-btn-biz').innerText = dict[lang].btnBiz;
+      document.getElementById('ui-btn-ai').innerText = dict[lang].btnAi;
+      document.getElementById('ui-btn-self').innerText = dict[lang].btnSelf;
+      document.getElementById('ui-btn-promo').innerText = dict[lang].btnPromo;
+      document.getElementById('ui-bot-status').innerText = dict[lang].botStatus;
+      document.getElementById('ui-session-label').innerText = dict[lang].sessionLabel;
+      document.getElementById('ui-welcome1').innerText = dict[lang].welcome1;
+      document.getElementById('ui-welcome2').innerText = dict[lang].welcome2;
+      document.getElementById('ui-q1').innerText = dict[lang].q1;
+      document.getElementById('ui-q2').innerText = dict[lang].q2;
+      document.getElementById('ui-q3').innerText = dict[lang].q3;
+      document.getElementById('ui-q4').innerText = dict[lang].q4;
+      document.getElementById('ui-hint').innerHTML = dict[lang].hint;
+      document.getElementById('user-input').placeholder = dict[lang].placeholder;
+      document.getElementById('ui-send-label').innerText = dict[lang].sendLabel;
+    }
+
+    function sendCategoryPrompt(categoryKey) {
+      const promptText = dict[currentLang].quickPrompts[categoryKey];
+      sendQuickPrompt(promptText);
+    }
+
+    function triggerQuickAction(actionKey) {
+      const promptText = dict[currentLang].quickPrompts[actionKey];
+      sendQuickPrompt(promptText);
+    }
+
+    // 2. ANONYMOUS SESSION MANAGEMENT
+    let sessionId = localStorage.getItem('libra_agent_session_id');
     if (!sessionId) {
       sessionId = 'anon-' + Math.random().toString(36).substring(2, 9) + '-' + Date.now().toString(36);
-      localStorage.setItem('rp_agent_session_id', sessionId);
+      localStorage.setItem('libra_agent_session_id', sessionId);
     }
     document.getElementById('session-display').innerText = sessionId.substring(0, 14) + '...';
 
@@ -281,7 +325,7 @@
     const userInput = document.getElementById('user-input');
     const sendButton = document.getElementById('btn-send');
 
-    // 2. CUSTOM MARKDOWN RENDERER (Ubah link [Tombol](action:prompt) jadi Button Interaktif)
+    // 3. CUSTOM MARKDOWN RENDERER
     const renderer = new marked.Renderer();
     renderer.link = function(href, title, text) {
       if (typeof href === 'object' && href !== null) {
@@ -299,13 +343,11 @@
 
     function formatBotResponse(rawText) {
       if (!rawText) return '';
-      // 1. Ubah format [Label](action:Prompt) menjadi tombol HTML interaktif
       const actionRegex = /\[([^\]]+)\]\(action:([^)]+)\)/g;
       let processed = rawText.replace(actionRegex, function(match, label, prompt) {
         const cleanPrompt = prompt.replace(/'/g, "\\'").replace(/"/g, '&quot;').trim();
         return `<button onclick="sendQuickPrompt('${cleanPrompt}')" class="action-btn">⚡ ${label}</button>`;
       });
-      // 2. Parse Markdown lainnya (tabel, bold, list)
       return marked.parse(processed);
     }
 
@@ -316,7 +358,7 @@
 
       const avatarHtml = isUser
         ? `<div class="w-8 h-8 rounded-lg bg-blue-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">YOU</div>`
-        : `<div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center flex-shrink-0 text-sm">🤖</div>`;
+        : `<div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center flex-shrink-0 text-sm">📚</div>`;
 
       const bubbleClass = isUser ? 'chat-bubble-user text-white' : 'chat-bubble-bot prose-custom text-sm';
       const parsedText = isUser ? escapeHtml(text) : formatBotResponse(text);
@@ -365,12 +407,11 @@
       sendButton.disabled = true;
       sendButton.classList.add('opacity-50');
 
-      // Add temporary loading indicator
       const loadingDiv = document.createElement('div');
       loadingDiv.className = 'flex items-start space-x-3';
       loadingDiv.id = 'typing-indicator';
       loadingDiv.innerHTML = `
-        <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center flex-shrink-0 text-sm">🤖</div>
+        <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center flex-shrink-0 text-sm">📚</div>
         <div class="chat-bubble-bot p-3 rounded-2xl rounded-tl-none text-xs text-cyan-300 flex items-center space-x-2">
           <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
           <span>${dict[currentLang].sending}</span>
@@ -387,32 +428,34 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message: text,
-            session_id: sessionId
+            session_id: sessionId,
+            language: currentLang
           })
         });
 
         const elapsed = Math.round(performance.now() - startTime);
         document.getElementById('latency-text').innerText = `${elapsed}ms`;
 
-        // Remove indicator
         const ind = document.getElementById('typing-indicator');
         if (ind) ind.remove();
 
         if (res.status === 429) {
-          appendMessage('bot', '⚠️ **Rate Limit:** ${dict[currentLang].rateLimit}');
+          appendMessage('bot', `⚠️ **Rate Limit:** ${dict[currentLang].rateLimit}`);
           return;
         }
 
         const data = await res.json();
-        if (data.success) {
-          appendMessage('bot', data.reply);
+        if (data.status === 'success' || data.success) {
+          appendMessage('bot', data.reply || data.response || JSON.stringify(data));
         } else {
-          appendMessage('bot', `⚠️ Terjadi kendala: ${data.detail || 'Gagal memproses pesan'}`);
+          const errMsg = currentLang === 'id' ? 'Gagal memproses pesan' : 'Failed to process message';
+          appendMessage('bot', `⚠️ ${data.detail || errMsg}`);
         }
       } catch (err) {
         const ind = document.getElementById('typing-indicator');
         if (ind) ind.remove();
-        appendMessage('bot', `⚠️ Gagal terhubung ke backend server: ${err.message}. Pastikan server.py sudah berjalan.`);
+        const errPrefix = currentLang === 'id' ? 'Gagal terhubung ke backend server' : 'Failed to connect to backend server';
+        appendMessage('bot', `⚠️ ${errPrefix}: ${err.message}.`);
       } finally {
         userInput.disabled = false;
         sendButton.disabled = false;

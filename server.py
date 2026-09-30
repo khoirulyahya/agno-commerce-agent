@@ -1,6 +1,7 @@
 """
-Production-Ready FastAPI Server for Agno Agent + AgnoCommerce Gaming Transactions
-Menyediakan REST API & SSE Real-time Streaming, Rate Limiting, dan Session Management.
+FastAPI Server Gateway untuk Libra Books AI Assistant
+Menyediakan REST API & Server-Sent Events (SSE) streaming untuk integrasi Frontend Web.
+Dilengkapi rate limiting dan multi-provider key failover.
 """
 import os
 import sys
@@ -18,20 +19,19 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Add project root to sys.path
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).resolve().parent
 sys.path.append(str(BASE_DIR))
 
 from src.agent_factory import create_commerce_agent, run_agent_with_failover, ALL_COMMERCE_TOOLS
 from tools.commerce_tools import DATABASE_CATALOG, ORDERS_DB
 
 app = FastAPI(
-    title="AgnoCommerce Agentic AI Gateway",
-    description="Backend API Gateway untuk AI Agent Transaksi AgnoCommerce berbasis Agno",
-    version="2.0.0"
+    title="Libra Books AI Gateway",
+    description="Production-grade AI Gateway using Agno, FastAPI, and multi-provider failover for digital bookstore transactions.",
+    version="1.0.0"
 )
 
-# Enable CORS for Next.js / React / Vite frontends
+# CORS Middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -40,52 +40,53 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount Static Files (Frontend Web & Slides)
+app.mount("/slides", StaticFiles(directory=str(BASE_DIR / "slides"), html=True), name="slides")
+app.mount("/frontend", StaticFiles(directory=str(BASE_DIR / "frontend"), html=True), name="frontend")
+app.mount("/screenshots", StaticFiles(directory=str(BASE_DIR / "screenshots")), name="screenshots")
+
+
 # ==========================================
-# 1. RATE LIMITING & ANTI-SPAM SYSTEM
+# 1. SIMPLE IN-MEMORY RATE LIMITER
 # ==========================================
-# Melindungi server dari bot spam tanpa mewajibkan user login
-RATE_LIMIT_WINDOW_SECONDS = 60
-MAX_REQUESTS_PER_MINUTE = 15
-ip_request_history = defaultdict(list)
+RATE_LIMIT_PER_MINUTE = 15
+request_history = defaultdict(list)
 
 def check_rate_limit(request: Request):
-    """Membatasi request maksimal 15 chat / menit per IP."""
     client_ip = request.client.host if request.client else "127.0.0.1"
     now = time.time()
     
-    # Clean old requests
-    timestamps = [t for t in ip_request_history[client_ip] if now - t < RATE_LIMIT_WINDOW_SECONDS]
-    ip_request_history[client_ip] = timestamps
+    request_history[client_ip] = [t for t in request_history[client_ip] if now - t < 60]
     
-    if len(timestamps) >= MAX_REQUESTS_PER_MINUTE:
+    if len(request_history[client_ip]) >= RATE_LIMIT_PER_MINUTE:
         raise HTTPException(
             status_code=429,
-            detail="Terlalu banyak permintaan chat. Mohon tunggu 1 menit sebelum mengirim pesan lagi."
+            detail="Rate limit exceeded. Maximum 15 requests per minute."
         )
     
-    ip_request_history[client_ip].append(now)
-    return client_ip
+    request_history[client_ip].append(now)
+    return True
 
 
 # ==========================================
-# 2. SESSION STORE (IN-MEMORY CACHE)
+# 2. SESSION & AGENT REGISTRY
 # ==========================================
-# Menyimpan instance agent per session_id agar memiliki conversation context
 session_agents: Dict[str, Any] = {}
 
-def get_or_create_agent(session_id: str):
-    if session_id not in session_agents:
-        session_agents[session_id] = create_commerce_agent(session_id=session_id)
-    return session_agents[session_id]
+def get_or_create_agent(session_id: str, language: str = "en"):
+    key = f"{session_id}_{language}"
+    if key not in session_agents:
+        session_agents[key] = create_commerce_agent(session_id=session_id, language=language)
+    return session_agents[key]
 
 
 # ==========================================
 # 3. REQUEST / RESPONSE SCHEMAS
 # ==========================================
 class ChatRequest(BaseModel):
-    message: str = Field(..., description="Pesan dari user", example="Berapa harga 86 diamond ML?")
-    session_id: Optional[str] = Field(None, description="UUID sesi anonymous dari browser", example="anon-uuid-12345")
-    game_context: Optional[str] = Field(None, description="Game yang sedang dibuka di halaman web")
+    message: str = Field(..., description="Message from user")
+    session_id: Optional[str] = Field(None, description="Anonymous session UUID from browser")
+    language: Optional[str] = Field("en", description="Language code: 'en' or 'id'")
 
 class ChatResponse(BaseModel):
     success: bool
@@ -99,10 +100,10 @@ class ChatResponse(BaseModel):
 # ==========================================
 @app.get("/api/health")
 def health_check():
-    provider = os.getenv("AI_PROVIDER", "openrouter")
+    provider = os.getenv("AI_PROVIDER", "gemini")
     return {
         "status": "online",
-        "service": "AgnoCommerce AI Agno Gateway",
+        "service": "Libra Books AI Gateway",
         "provider": provider,
         "tools_count": len(ALL_COMMERCE_TOOLS)
     }
@@ -110,26 +111,27 @@ def health_check():
 
 @app.get("/api/catalog")
 def get_catalog():
-    """Mengambil katalog lengkap produk gaming AgnoCommerce"""
+    """Mengembalikan katalog buku digital."""
     return {"status": "success", "catalog": DATABASE_CATALOG}
 
 
 @app.get("/api/orders/{invoice_id}")
-def get_order_by_invoice(invoice_id: str):
-    """Cek invoice transaksi"""
+def get_order_status(invoice_id: str):
+    """Mengecek status order / invoice pembelian buku."""
     inv = invoice_id.upper().strip()
     if inv in ORDERS_DB:
         return {"status": "success", "order": ORDERS_DB[inv]}
-    raise HTTPException(status_code=404, detail=f"Invoice {invoice_id} tidak ditemukan.")
+    raise HTTPException(status_code=404, detail=f"Invoice {invoice_id} not found.")
 
 
 @app.post("/api/chat", response_model=ChatResponse, dependencies=[Depends(check_rate_limit)])
 def chat_standard(req: ChatRequest):
     """Endpoint chat standar (JSON Request -> JSON Response)."""
     session_id = req.session_id or f"anon-{int(time.time()*1000)}"
+    lang = req.language or "en"
     
     try:
-        response = run_agent_with_failover(req.message, session_id=session_id)
+        response = run_agent_with_failover(req.message, session_id=session_id, language=lang)
         reply_content = response.content if hasattr(response, "content") else str(response)
         
         return ChatResponse(
@@ -146,7 +148,8 @@ def chat_standard(req: ChatRequest):
 async def chat_stream(req: ChatRequest):
     """Endpoint real-time SSE streaming (efek ketik live per kata)."""
     session_id = req.session_id or f"anon-{int(time.time()*1000)}"
-    agent = get_or_create_agent(session_id)
+    lang = req.language or "en"
+    agent = get_or_create_agent(session_id, language=lang)
     
     def event_generator():
         try:
@@ -154,38 +157,27 @@ async def chat_stream(req: ChatRequest):
             for chunk in response_stream:
                 content = chunk.content if hasattr(chunk, "content") else str(chunk)
                 if content:
-                    yield f"data: {content}\n\n"
+                    clean_content = content.replace("\n", "\\n")
+                    yield f"data: {clean_content}\n\n"
             yield "data: [DONE]\n\n"
-        except Exception as err:
-            yield f"data: [ERROR] {str(err)}\n\n"
+        except Exception as e:
+            yield f"data: [ERROR] {str(e)}\n\n"
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 
-# ==========================================
-# 5. STATIC FILES (SLIDES & CHAT WIDGET)
-# ==========================================
-# Serve interactive slide presentation
-slides_path = BASE_DIR / "slides"
-if slides_path.exists():
-    app.mount("/slides", StaticFiles(directory=str(slides_path), html=True), name="slides")
-
-# Serve frontend widget
-frontend_path = BASE_DIR / "frontend"
-if frontend_path.exists():
-    app.mount("/frontend", StaticFiles(directory=str(frontend_path), html=True), name="frontend")
-
+# Root / -> serve chatbot UI
 @app.get("/")
-def home():
-    """Redirect to Presentation Slides or Frontend"""
+def serve_root():
     return FileResponse(str(BASE_DIR / "frontend" / "index.html"))
 
 
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.getenv("PORT", "8000"))
-    print(f"🚀 AgnoCommerce Agno Gateway running on http://localhost:{port}")
-    print(f"📊 Presentation Deck: http://localhost:{port}/slides")
-    print(f"🎮 Live Chat Widget: http://localhost:{port}/frontend")
-    print(f"📖 Swagger Docs: http://localhost:{port}/docs")
-    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=True)
+    print("\n" + "="*60)
+    print("🚀 Libra Books AI Gateway running on http://localhost:8000")
+    print("📊 Presentation Deck: http://localhost:8000/slides")
+    print("📚 Live Chat Widget: http://localhost:8000/")
+    print("📖 Swagger Docs: http://localhost:8000/docs")
+    print("="*60 + "\n")
+    uvicorn.run("server.py:app", host="0.0.0.0", port=8000, reload=True)
