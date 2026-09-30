@@ -132,7 +132,7 @@ def create_book_order(
     book_sku: str,
     payment_method: str = "QRIS"
 ) -> Dict[str, Any]:
-    """Creates a digital book purchase order and generates invoice + download link.
+    """Creates a digital book purchase order and generates dynamic QRIS image + invoice.
 
     Args:
         buyer_name: Buyer's name
@@ -150,6 +150,11 @@ def create_book_order(
         return {"status": "error", "message": f"Book with SKU '{book_sku}' not found."}
 
     invoice_id = f"INV-{uuid.uuid4().hex[:4].upper()}"
+    
+    # QRIS payload simulation: When scanned with phone camera, it directs to receipt endpoint
+    qris_qr_data = f"https://libra-books.com/pay/{invoice_id}"
+    qris_image_url = f"https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={qris_qr_data}&margin=10"
+
     order = {
         "invoice_id": invoice_id,
         "buyer_name": buyer_name,
@@ -160,13 +165,32 @@ def create_book_order(
         "amount": selected_book["price"],
         "payment_method": payment_method,
         "status": "PENDING",
+        "qris_image_url": qris_image_url,
         "download_link": f"https://libra-books.com/download/{invoice_id}",
         "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "pay_link": f"https://libra-books.com/pay/{invoice_id}",
-        "notes": f"Once payment is confirmed, the {selected_book['format']} file will be ready for download."
+        "notes": f"Scan the QRIS code to complete payment of Rp {selected_book['price']:,}. Once paid, files are instantly downloadable."
     }
     ORDERS_DB[invoice_id] = order
     return {"status": "success", "message": "Order successfully created!", "order": order}
+
+def confirm_order_payment(invoice_id: str) -> Dict[str, Any]:
+    """Confirms/simulates payment completion for an invoice and activates instant file download link.
+
+    Args:
+        invoice_id: Invoice number (e.g., 'INV-XXXX')
+    """
+    inv = invoice_id.upper().strip()
+    order = ORDERS_DB.get(inv)
+    if not order:
+        return {"status": "not_found", "message": f"Invoice '{invoice_id}' not found."}
+
+    order["status"] = "SUCCESS"
+    order["paid_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return {
+        "status": "success",
+        "message": f"Payment of Rp {order['amount']:,} for {order['book_title']} verified!",
+        "order": order
+    }
 
 def check_order_status(invoice_id: str) -> Dict[str, Any]:
     """Checks order status and book download link based on Invoice ID.
