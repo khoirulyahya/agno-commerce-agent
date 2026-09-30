@@ -2,7 +2,7 @@
 
 A production-ready **Agentic AI Gateway** built with [Agno](https://github.com/agno-agi/agno) and FastAPI — enabling natural language interactions for e-commerce transactions, catalog browsing, and order management.
 
-![Chat UI](screenshots/ui-chat.png)
+![Chat UI](screenshots/demo.gif)
 
 ## What It Does
 
